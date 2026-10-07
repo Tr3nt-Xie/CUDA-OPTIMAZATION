@@ -53,3 +53,20 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Lab6 local build, generated inputs, and Python environments
+/build/
+/data/generated/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Local credentials (never commit cloud access material)
+.env
+.env.*
+!.env.example
+.aws/
+*.pem
+*.key

@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "matrix": {
+    "dtype": "float32",
+    "layout": "row_major",
+    "operation": "C=A*B",
+    "sizes": [
+      256,
+      512,
+      1024,
+      2048
+    ],
+    "correctness_sizes": [
+      2,
+      3,
+      31
+    ],
+    "implementations": [
+      "cpu",
+      "naive",
+      "tiled",
+      "optimized",
+      "cublas"
+    ]
+  },
+  "convolution": {
+    "image_dtype": "uint32",
+    "image_value_range": [
+      0,
+      255
+    ],
+    "filter_dtype": "float32",
+    "output_dtype": "float32",
+    "image_sizes": [
+      512,
+      1024,
+      2048
+    ],
+    "filter_sizes": [
+      3,
+      5,
+      7
+    ],
+    "benchmark_filter": "mean",
+    "showcase_filters": [
+      "edge",
+      "sharpen"
+    ],
+    "stride": 1,
+    "padding": "zero",
+    "output_shape": "same",
+    "flip_filter": true
+  },
+  "correctness": {
+    "atol": 0.001,
+    "rtol": 0.0001,
+    "reject_nonfinite": true
+  },
+  "measurement": {
+    "warmup_runs": 1,
+    "measured_runs": 3,
+    "aggregate": "mean",
+    "unit": "ms",
+    "scopes": [
+      "compute",
+      "end_to_end"
+    ]
+  },
+  "input_generation": {
+    "seed": 542,
+    "owner": "A",
+    "shared_files_required": true
+  },
+  "csv_columns": [
+    "run_id",
+    "member",
+    "operation",
+    "implementation",
+    "N",
+    "M",
+    "K",
+    "filter_id",
+    "input_id",
+    "timing_scope",
+    "run",
+    "time_ms",
+    "correct",
+    "max_abs_error",
+    "commit"
+  ]
+}
