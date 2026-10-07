@@ -26,7 +26,7 @@
 ├── python/                 # C · ctypes 封装和 Python 实验入口
 ├── scripts/                # A · 数据生成；C · 实验调度、汇总和绘图
 ├── configs/benchmark.json  # 全组统一测试参数
-├── data/                   # 共用输入和数据清单
+├── data/                   # A · 卷积测试图片（矩阵输入由程序按 seed 生成）
 ├── results/
 │   ├── raw/                # 原始 CSV、日志和运行环境
 │   ├── summary/            # 从原始数据生成的汇总表

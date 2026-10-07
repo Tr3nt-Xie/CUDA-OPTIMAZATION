@@ -2,7 +2,7 @@
 
 预留：
 - `lab6.py`：加载 `build/liblab6_cuda.so`，配置 ctypes 参数和返回类型，封装矩阵/卷积调用。
-- `bench.py`：读取共用输入，核验结果，测 Python end_to_end 并输出统一 CSV。
+- `bench.py`：矩阵按配置 seed 用 NumPy 生成并用 `A @ B` 校验；卷积读取 data/generated 的同一份图片；测 Python end_to_end 并输出统一 CSV。
 - `requirements.txt`：实施时记录实际使用的 NumPy 版本。
 
 输出是调用方分配的 float32 NumPy 数组。矩阵输入 float32；卷积图像 uint32、滤波器 float32；均验证 C contiguous、形状和类型。非零返回码必须转成失败。

@@ -5,12 +5,13 @@
 ## 数据和正确性
 
 - 矩阵：`float32`、C 行主序连续存储、`C=A×B`。正式测试四种 N 全部运行；PDF 指定 512、1024、2048，组内补充 256。小规模 2、3、31 用于正确性和非整块边界检查。
-- A 生成全组共用输入文件和 manifest，记录形状、类型、种子与 SHA-256。C/Python 读取同一份数据，不能只约定同一个 seed 后各自生成。随机值范围及生成器版本写入 manifest。
+- 矩阵输入不存文件：测试程序用配置中的固定 seed 在程序内生成，取值范围 [0,1)，并在同一进程内与 CPU 参考结果比对。Python 侧用 NumPy 自行生成，用 `A @ B` 校验。
+- 卷积测试图片原图放 `data/images/` 并注明来源；由脚本转换成各尺寸的 `uint32` 原始二进制放 `data/generated/`，C 与 Python 读同一份。
 - 卷积图像为 `uint32` 灰度值 0–255，权重和原始输出为 `float32`。保留负数输出；展示图片才另行裁剪/映射，不拿展示图片做数值校验。
 - 组内统一 stride=1、zero padding、same 输出、翻转滤波器的数学卷积。K 为正奇数，r=K/2：
   `out[y,x] = Σ filter[i,j] × image[y+r-i, x+r-j]`，越界图像值视为 0。
-- 卷积正式测试 M=512/1024/2048 与 K=3/5/7 的九组笛卡尔积，统一使用归一化均值滤波器。另用 edge/sharpen 展示图像效果；具体核由 A 保存共享。三种图像尺寸、三种滤波器尺寸来自 PDF 要求，具体数值、九组配对方式和边界规则为组内约定。
-- 正确性逐元素要求 `abs(got-ref) <= 1e-3 + 1e-4*abs(ref)`，拒绝 NaN/Inf，同时记录最大绝对误差。CPU 基准也需用手算小例子或独立实现核对；卷积增加非对称滤波器的小例子以识别卷积与互相关混淆。
+- 卷积正式测试 M=512/1024/2048 与 K=3/5/7 的九组笛卡尔积，统一使用归一化均值滤波器。另用 edge/sharpen 展示图像效果；具体核由 A 定义在共享代码中。三种图像尺寸、三种滤波器尺寸来自 PDF 要求，具体数值、九组配对方式和边界规则为组内约定。
+- 正确性逐元素要求 `abs(got-ref) <= 1e-3 + 1e-4*abs(ref)`，拒绝 NaN/Inf，同时记录最大绝对误差。CPU 基准也需用手算小例子核对（直接写在测试程序里）；卷积增加非对称滤波器的小例子以识别卷积与互相关混淆。
 - CPU、CUDA、Python 输出均对照同一参考。cuBLAS 要处理行/列主序差异；禁止靠“输入全相同”掩盖转置问题。正式比较保持 FP32 运算，不主动开启 TF32 或 fast-math。
 
 ## 代码与接口
@@ -41,14 +42,13 @@
 
 CPU 无传输时可在同一次调用中记录两种 scope，清楚注明边界。Python compute 可通过公开的 `lab6_*(..., timings)` 接口取得设备计时；Python 总耗时用外层单调时钟测量。不要将外层总耗时标为 kernel time。
 
-正式 CPU/GPU 数据在**同一台实验机**采集；共享 GPU 按人轮流，不能同时跑性能实验。保存 CPU/GPU、驱动/Toolkit、编译命令、git commit、工作区是否有改动和原始日志。云平台与 GPU 型号不写死在代码中。
+正式 CPU/GPU 数据在**同一台实验机**采集；共享 GPU 按人轮流，不能同时跑性能实验。每次正式测试交一个 CSV 和一份 `environment.txt`（硬件、驱动/Toolkit、编译命令、git commit），放法见 `results/README.md`。云平台与 GPU 型号不写死在代码中。
 
 CSV 按配置中的列顺序输出。一行对应一次运行的一种 timing_scope：
-- `operation`：matrix / convolution；`N` 为矩阵边长，`M,K` 为卷积尺寸。不适用的字段留空。
+- `operation`：matrix / convolution；`N` 为矩阵边长，`M,K` 为卷积尺寸，`filter` 为 mean / edge / sharpen。不适用的字段留空。
 - `implementation`：cpu / naive / tiled / optimized / cublas / cuda / python_tiled / python_cuda。
-- `run`：1–3；预热不混入正式 CSV。`correct`：true / false；`commit` 填真实 SHA。
-- `input_id` 关联 data manifest，`run_id` 关联环境、配置快照与日志。
-- 失败保留在日志；有有效耗时但正确性失败的行保留 false，由汇总脚本排除并显式报告。
+- `run`：1–3；预热不混入正式 CSV。`correct`：true / false。
+- 有有效耗时但正确性失败的行保留 false，由汇总脚本排除并显式报告。
 - CPU/GPU 加速比必须基于相同输入、相同 scope 的均值，不混合 compute 与 end_to_end。
 - 进一步优化不保证超过 cuBLAS；保留真实改善或退化的结果及解释。
 
@@ -56,9 +56,9 @@ CSV 按配置中的列顺序输出。一行对应一次运行的一种 timing_sc
 
 建议分支 `feat/a-baselines`、`feat/b-cuda`、`feat/c-integration`。这些是命名约定，当前未创建远端分支。
 
-1. A 先提供小输入、CPU 可信输出和环境记录；B 同时实现 tiled/卷积；C 同时做 cuBLAS、ctypes 和结果工具。
+1. A 先提供共用 CUDA 工具、测试程序、CPU 实现、测试图片和环境记录；B 同时实现 tiled/卷积；C 同时做 cuBLAS、ctypes 和结果工具。
 2. A/B 提供可运行基线后，C 联调共享库与 Python；各人核对自己的实现。
-3. 小规模正确性通过后，预约同一 GPU 轮流测量；每人提供 CSV、日志、运行命令和本人报告/视频材料。
+3. 小规模正确性通过后，预约同一 GPU 轮流测量；每人提供 CSV、environment.txt、运行命令和本人报告/视频材料。
 4. C 汇总数据和图表；A 合并报告；B 检查源码与构建复现；C 合并视频材料。
 
-A 主要维护数据生成和 CPU/naive 入口；B 维护 tiled/optimized/CUDA 卷积；C 维护绑定、配置消费和分析脚本。公共头文件、配置、Makefile 改动在 PR 中说明影响，避免多人各自另造接口。合入 main 前须能编译通过，未完成的函数保持返回 `LAB6_NOT_IMPLEMENTED`；代码按根目录 `.clang-format` 格式化。每人使用自己的 Git 身份提交，不改写队友历史。
+A 主要维护框架（共用 CUDA 工具、测试程序、图片转换）和 CPU/naive 实现；B 维护 tiled/optimized/CUDA 卷积；C 维护绑定、配置消费和分析脚本。公共头文件、配置、Makefile 改动在 PR 中说明影响，避免多人各自另造接口。合入 main 前须能编译通过，未完成的函数保持返回 `LAB6_NOT_IMPLEMENTED`；代码按根目录 `.clang-format` 格式化。每人使用自己的 Git 身份提交，不改写队友历史。

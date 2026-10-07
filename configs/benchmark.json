@@ -68,24 +68,25 @@
   },
   "input_generation": {
     "seed": 542,
-    "owner": "A",
-    "shared_files_required": true
+    "matrix_value_range": [
+      0.0,
+      1.0
+    ],
+    "images_dir": "data/images",
+    "generated_dir": "data/generated"
   },
   "csv_columns": [
-    "run_id",
     "member",
     "operation",
     "implementation",
     "N",
     "M",
     "K",
-    "filter_id",
-    "input_id",
+    "filter",
     "timing_scope",
     "run",
     "time_ms",
     "correct",
-    "max_abs_error",
-    "commit"
+    "max_abs_error"
   ]
 }
