@@ -1,9 +1,10 @@
-#include <stdio.h>
+#include "harness.h"
 
-#include "lab6.h"
+static const bench_impl kImpls[] = {
+    {"cpu", lab6_matmul_cpu, lab6_convolve_cpu},
+};
 
-/* TODO (A, Part 1 / 8.1): CPU matrix and convolution entry; see README.md. */
-int main(void) {
-    fprintf(stderr, "bench_cpu: not implemented\n");
-    return LAB6_NOT_IMPLEMENTED;
+int main(int argc, char **argv) {
+    return bench_main(argc, argv, "bench_cpu", kImpls,
+                      (int)(sizeof kImpls / sizeof kImpls[0]));
 }

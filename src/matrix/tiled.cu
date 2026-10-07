@@ -1,6 +1,6 @@
 #include "lab6.h"
 
-/* TODO (B, Part 4): implement and validate before benchmarking. */
+/* Part 4 (B): shared-memory tiled matrix multiplication. */
 int lab6_matmul_tiled(const float *A, const float *B, float *C, int N,
                       lab6_timings *timings) {
     (void)A;

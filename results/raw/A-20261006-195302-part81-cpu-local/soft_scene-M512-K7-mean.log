@@ -1,0 +1,4 @@
+$ /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/build/A-20261006-195302-part81-cpu-local/bench_cpu conv --image /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/data/generated/soft_scene_512.u32 --k 7 --filter mean --member A --csv /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/results/raw/A-20261006-195302-part81-cpu-local/soft_scene-M512-K7-mean.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001
+ok   cpu       M=512 K=7 filter=mean        compute      9.796 ms  end_to_end      9.796 ms  max_abs_err 0.000131
+
+exit_code=0

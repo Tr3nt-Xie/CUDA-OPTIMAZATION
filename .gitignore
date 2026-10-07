@@ -57,6 +57,9 @@ dkms.conf
 # Lab6 local build, generated inputs, and Python environments
 /build/
 /data/generated/
+# Regenerable raw image buffers, including manual --save output
+*.u32
+*.f32
 .venv/
 venv/
 __pycache__/

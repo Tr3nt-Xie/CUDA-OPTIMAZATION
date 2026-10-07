@@ -1,0 +1,20 @@
+$ /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/build/A-20261006-195441-part81-cpu-local/bench_cpu selftest
+PASS reference matmul hand 2x2                      max_abs_err 0
+PASS reference conv hand asymmetric                 max_abs_err 0
+PASS cpu       matmul hand 2x2 (timings=NULL)       max_abs_err 0
+PASS cpu       matmul random N=2                    max_abs_err 1.25e-08
+PASS cpu       matmul random N=3                    max_abs_err 6.33e-08
+PASS cpu       matmul random N=31                   max_abs_err 2.84e-06
+PASS cpu       conv hand asymmetric (timings=NULL)  max_abs_err 0
+PASS cpu       conv random M=2 K=1                  max_abs_err 5.48e-06
+PASS cpu       conv random M=2 K=3                  max_abs_err 7.87e-06
+PASS cpu       conv random M=2 K=5                  max_abs_err 1.39e-05
+PASS cpu       conv random M=3 K=1                  max_abs_err 3.46e-06
+PASS cpu       conv random M=3 K=3                  max_abs_err 7.63e-06
+PASS cpu       conv random M=3 K=5                  max_abs_err 3.16e-05
+PASS cpu       conv random M=31 K=1                 max_abs_err 3.81e-06
+PASS cpu       conv random M=31 K=3                 max_abs_err 6.07e-05
+PASS cpu       conv random M=31 K=5                 max_abs_err 0.000173
+selftest: all passed
+
+exit_code=0

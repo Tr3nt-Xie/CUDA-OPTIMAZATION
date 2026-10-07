@@ -1,9 +1,14 @@
-#include <stdio.h>
+#include "harness.h"
 
-#include "lab6.h"
+static const bench_impl kImpls[] = {
+    {"naive", lab6_matmul_naive, nullptr},
+    {"tiled", lab6_matmul_tiled, nullptr},
+    {"optimized", lab6_matmul_optimized, nullptr},
+    {"cublas", lab6_matmul_cublas, nullptr},
+    {"cuda", nullptr, lab6_convolve_cuda},
+};
 
-/* TODO (A builds the entry; B/C add their implementation branches). */
-int main(void) {
-    fprintf(stderr, "bench_cuda: not implemented\n");
-    return LAB6_NOT_IMPLEMENTED;
+int main(int argc, char **argv) {
+    return bench_main(argc, argv, "bench_cuda", kImpls,
+                      static_cast<int>(sizeof kImpls / sizeof kImpls[0]));
 }

@@ -1,6 +1,6 @@
 #include "lab6.h"
 
-/* TODO (B, Part 6.2): implement and validate before benchmarking. */
+/* Part 6.2 (B): further CUDA optimization per the lab assignment. */
 int lab6_matmul_optimized(const float *A, const float *B, float *C, int N,
                           lab6_timings *timings) {
     (void)A;

@@ -1,6 +1,6 @@
 #include "lab6.h"
 
-/* Owner C: keep these exports thin; reuse the standalone implementations. */
+/* Parts 7 and 8.3 (C): current C ABI exports for Python. */
 extern "C" int gpu_matrix_multiply(const float *A, const float *B, float *C,
                                    int N) {
     return lab6_matmul_tiled(A, B, C, N, nullptr);

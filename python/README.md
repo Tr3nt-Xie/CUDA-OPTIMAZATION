@@ -1,12 +1,9 @@
 # Python 接口（C，Part 7 / 8.3）
 
-预留：
-- `lab6.py`：加载 `build/liblab6_cuda.so`，配置 ctypes 参数和返回类型，封装矩阵/卷积调用。
-- `bench.py`：矩阵按配置 seed 用 NumPy 生成并用 `A @ B` 校验；卷积读取 data/generated 的同一份图片；测 Python end_to_end 并输出统一 CSV。
-- `requirements.txt`：实施时记录实际使用的 NumPy 版本。
+C 依据实验文档完成 Part 7 / 8.3：分别通过共享库调用 Part 4 的 tiled 矩阵实现和 Part 8.2 的 CUDA 卷积实现。Python 代码的组织和文件命名由 C 决定。
 
-输出是调用方分配的 float32 NumPy 数组。矩阵输入 float32；卷积图像 uint32、滤波器 float32；均验证 C contiguous、形状和类型。非零返回码必须转成失败。
+当前共享库构建目标为 `build/liblab6_cuda.so`，导出 `gpu_matrix_multiply` / `gpu_convolve`，声明见 `include/lab6.h`。这两个入口目前分别调用尚未实现的 tiled 矩阵和 CUDA 卷积函数，返回 `LAB6_NOT_IMPLEMENTED`。
 
-共享库已导出 gpu_matrix_multiply / gpu_convolve，内部调用 B 的实现；目前算法仍返回 NOT_IMPLEMENTED。
-若需 GPU compute 时间，可绑定 lab6_matmul_tiled / lab6_convolve_cuda 及 lab6_timings 结构体。
-Mac 可写封装和输入检查；CUDA 运行与正式测试在实验机完成。
+现有接口接收 host 指针，数据连续、行主序；输出由调用方分配。矩阵输入/输出为 float32，卷积图像为 uint32，滤波器/输出为 float32。调用前检查 dtype、形状和 C 连续布局；`ctypes` 参数类型匹配头文件，设置 `restype=c_int`，非零返回值按失败处理。
+
+数据和计时口径见 `docs/CONTRACTS.md`；CUDA 运行与正式性能比较需要实验机。
