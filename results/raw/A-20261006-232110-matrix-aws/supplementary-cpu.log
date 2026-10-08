@@ -1,0 +1,7 @@
+$ /home/ubuntu/CUDA-OPTIMAZATION/build/A-20261006-232110-matrix-aws/bench_cpu matrix --impl cpu --n 16,32,64,128 --member A --csv /home/ubuntu/CUDA-OPTIMAZATION/results/raw/A-20261006-232110-matrix-aws/supplementary-cpu.csv --warmup 1 --runs 3 --seed 542 --atol 0.001 --rtol 0.0001
+ok   cpu       N=16                         compute      0.003 ms  end_to_end      0.003 ms  max_abs_err 9.27e-07
+ok   cpu       N=32                         compute      0.031 ms  end_to_end      0.031 ms  max_abs_err 2.29e-06
+ok   cpu       N=64                         compute      0.233 ms  end_to_end      0.233 ms  max_abs_err 9.39e-06
+ok   cpu       N=128                        compute      2.244 ms  end_to_end      2.244 ms  max_abs_err 2.37e-05
+
+exit_code=0

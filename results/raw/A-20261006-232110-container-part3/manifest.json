@@ -1,0 +1,36 @@
+{
+  "started_at": "2026-10-06T23:27:45-07:00",
+  "status": "passed",
+  "image": "nvidia/cuda:12.8.1-devel-ubuntu22.04@sha256:a99a1860ba8e2916e5c3e73b72ec4c4301653a84586e05bfc9a2aa2d58027e97",
+  "purpose": "Part 3 GPU container build and multi-size execution; separate from formal host comparison",
+  "git_head": "a2f7c1c3bb871ff5bcdf38097ac740e9e8927f3b",
+  "source_sha256": {
+    "src/bindings/exports.cu": "89976bf02b21424d1e2a64ddaaff4f450c3e491e92308a512264cfa819421784",
+    "src/common/cuda_utils.cuh": "9e8faf9bb6cfc403266bca2dfa078ca34a05a76aac633b2043dacd670a74fed3",
+    "src/common/timer.h": "182aa4ec1433d7ffa772cba0678cb68a1998e8a3db2db2ac55f2fd216f58ac04",
+    "src/common/validate.h": "0261051ba785ea140958cf2b4134ebd095ba7b5218bd6f9f2d8a133c22df66e9",
+    "src/convolution/cpu.c": "28e9e760329e0445af751a6cb12ec3429b30f05227faaf528340a4910339234e",
+    "src/convolution/cuda.cu": "1a494e9b34f9060a710b90876f159da83ea4d961e3fe45e35d6e3549d2317fd1",
+    "src/matrix/cpu.c": "c9ee4fea771d7e08f2979aced93ad4426de2ca6e4d5c026f231c8507c2000687",
+    "src/matrix/cublas.cu": "285e52532510d01132ec65747f2271eb9c77f6dcb19b6170d07a4084babb89a5",
+    "src/matrix/naive.cu": "8e43b2ab07210df7616440a575d627f60d1f9d4ba04919ea5f067c056ed50e88",
+    "src/matrix/optimized.cu": "03305f41b680a855b389fb860ebdfd07f045b3934327c79cc0854c25e8a590d4",
+    "src/matrix/tiled.cu": "f2cb1da4e355e1fb8cd7fe213f3430c50e337086720de9d2343b5f492d6ee945",
+    "include/lab6.h": "fc73f94e0be5d4cde43d05abf72dc87d9bf15449a278dbbf326fa82f9e2199fd",
+    "apps/README.md": "9a81e346677f49a624eb2e04c0c9d9e765002b8377a21d6539e8d026d6650756",
+    "apps/bench_cpu.c": "c93688c0eab44666816b769bfafdfe258e82b68b0e176fe50a70305ee7a58c8d",
+    "apps/bench_cuda.cu": "64ae993fc132299495bc20ff5a0ae5382ed9754590d587c45fd243d22db0a1d5",
+    "apps/harness.c": "bf4fe8790078134e01e0184a769aebd28110f8e02ab4073bc24ce4763c557b05",
+    "apps/harness.h": "3f36801192b80cee79df3d0f9094a0d412e242bc8b79d1c8c1a7cf5e5efc5c47"
+  },
+  "sizes": [
+    256,
+    512,
+    1024
+  ],
+  "warmup_runs": 1,
+  "measured_runs": 3,
+  "ended_at": "2026-10-06T23:27:49-07:00",
+  "measured_calls": 9,
+  "csv_sha256": "84a2e28aca24c745154538aa113c9e79a955421061be946d825fbe191b58452e"
+}

@@ -1,0 +1,62 @@
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.8.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+Wed Oct  7 06:02:19 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.91.07              Driver Version: 595.91.07      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       On  |   00000000:00:1E.0 Off |                    0 |
+| N/A   32C    P0             31W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Fri_Feb_21_20:23:50_PST_2025
+Cuda compilation tools, release 12.8, V12.8.93
+Build cuda_12.8.r12.8/compiler.35583870_0
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c src/matrix/cpu.c -o build/cpu/matrix/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c src/convolution/cpu.c -o build/cpu/convolution/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c apps/harness.c -o build/apps/harness.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/naive.cu -o build/cuda/matrix/naive.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/tiled.cu -o build/cuda/matrix/tiled.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/optimized.cu -o build/cuda/matrix/optimized.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/cublas.cu -o build/cuda/matrix/cublas.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/convolution/cuda.cu -o build/cuda/convolution/cuda.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/bindings/exports.cu -o build/cuda/bindings/exports.o
+ar rcs build/liblab6_cpu.a build/cpu/matrix/cpu.o build/cpu/convolution/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic apps/bench_cpu.c build/apps/harness.o build/liblab6_cpu.a \
+	 -lm -o build/bench_cpu
+nvcc -O2 -std=c++14 -arch=sm_75 -shared build/cuda/matrix/naive.o build/cuda/matrix/tiled.o build/cuda/matrix/optimized.o build/cuda/matrix/cublas.o build/cuda/convolution/cuda.o build/cuda/bindings/exports.o  -lcublas -o build/liblab6_cuda.so
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 apps/bench_cuda.cu build/apps/harness.o -Lbuild -llab6_cuda \
+	-Xlinker -rpath -Xlinker '$ORIGIN'  -lm -o build/bench_cuda
+PASS reference matmul hand 2x2                      max_abs_err 0
+PASS reference conv hand asymmetric                 max_abs_err 0
+PASS naive     matmul hand 2x2 (timings=NULL)       max_abs_err 0
+PASS naive     matmul random N=2                    max_abs_err 1.25e-08
+PASS naive     matmul random N=3                    max_abs_err 6.33e-08
+PASS naive     matmul random N=31                   max_abs_err 2.84e-06
+selftest: all passed

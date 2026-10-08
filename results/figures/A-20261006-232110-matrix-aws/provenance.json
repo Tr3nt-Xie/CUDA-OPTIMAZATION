@@ -1,0 +1,18 @@
+{
+  "run_id": "A-20261006-232110-matrix-aws",
+  "manifest_sha256": "0d8acdb8744c616bc0095f38a38e961cca902b6ee6cb0d9119f3bf2a1ad20680",
+  "input_summary": "results/summary/A-20261006-232110-matrix-aws.csv",
+  "input_summary_sha256": "a4bcb5b9363225932989b990dba18204ebafc24e1ec4588e6e5fde8f54397440",
+  "comparison_csv": "results/summary/A-20261006-232110-matrix-aws-comparison.csv",
+  "script_sha256": "639de02588548929f09c2af05cdea9e73bd8454053575496fb3d5a704004ed98",
+  "matplotlib": "3.11.2",
+  "speedup_definition": "ratio of arithmetic means, not mean of per-run ratios",
+  "figures": {
+    "gpu-overhead.png": "ad945a86f031675153b2a0abd184d8295c2d664a7e8f601d9c34e2796668b5ae",
+    "gpu-overhead.svg": "f455139b79d032a2bf18cd38b763b619820ace6ca8c1d8c2a1389c1a53313087",
+    "matrix-crossover.png": "704178300a242e1250693520ee6a6c057dc76ea58167234d5c158203bdce5de7",
+    "matrix-crossover.svg": "0b448c5e70c44d1c6356178cc81d744c5ff1dc38f4c7d44b121dbe9eb0e3a671",
+    "matrix-runtime.png": "0dc068f7d8da3115ea00a3b0993f1c52b5c331a2fbbed8380167f845af8ab125",
+    "matrix-runtime.svg": "39409671fab1f9e5e46cad8ed433a0f7bccc03d7b2ebefd44012fc749bdda9ce"
+  }
+}

@@ -1,0 +1,7 @@
+$ /home/ubuntu/CUDA-OPTIMAZATION/build/A-20261006-232110-matrix-aws/bench_cuda matrix --impl naive --n 256,512,1024,2048 --member A --csv /home/ubuntu/CUDA-OPTIMAZATION/results/raw/A-20261006-232110-matrix-aws/formal-naive.csv --warmup 1 --runs 3 --seed 542 --atol 0.001 --rtol 0.0001
+ok   naive     N=256                        compute      0.065 ms  end_to_end      0.527 ms  max_abs_err 6.83e-05
+ok   naive     N=512                        compute      0.444 ms  end_to_end      1.932 ms  max_abs_err 0.000214
+ok   naive     N=1024                       compute      3.466 ms  end_to_end      7.025 ms  max_abs_err 0.00056
+ok   naive     N=2048                       compute     31.391 ms  end_to_end     43.610 ms  max_abs_err 0.00161
+
+exit_code=0

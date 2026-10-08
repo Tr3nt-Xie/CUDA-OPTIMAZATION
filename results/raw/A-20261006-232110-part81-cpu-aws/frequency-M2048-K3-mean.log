@@ -1,0 +1,4 @@
+$ /home/ubuntu/CUDA-OPTIMAZATION/build/A-20261006-232110-part81-cpu-aws/bench_cpu conv --image /home/ubuntu/CUDA-OPTIMAZATION/data/generated/frequency_2048.u32 --k 3 --filter mean --member A --csv /home/ubuntu/CUDA-OPTIMAZATION/results/raw/A-20261006-232110-part81-cpu-aws/frequency-M2048-K3-mean.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001
+ok   cpu       M=2048 K=3 filter=mean       compute     85.081 ms  end_to_end     85.081 ms  max_abs_err 3.92e-05
+
+exit_code=0

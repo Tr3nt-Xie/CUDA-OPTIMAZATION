@@ -1,0 +1,4 @@
+$ /home/ubuntu/CUDA-OPTIMAZATION/build/A-20261006-232110-part81-cpu-aws/bench_cpu conv --image /home/ubuntu/CUDA-OPTIMAZATION/data/generated/frequency_1024.u32 --k 7 --filter mean --member A --csv /home/ubuntu/CUDA-OPTIMAZATION/results/raw/A-20261006-232110-part81-cpu-aws/frequency-M1024-K7-mean.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001
+ok   cpu       M=1024 K=7 filter=mean       compute     93.816 ms  end_to_end     93.816 ms  max_abs_err 0.000111
+
+exit_code=0

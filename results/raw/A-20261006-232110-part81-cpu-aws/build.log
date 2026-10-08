@@ -1,0 +1,9 @@
+$ make BUILD=build/A-20261006-232110-part81-cpu-aws cpu
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c src/matrix/cpu.c -o build/A-20261006-232110-part81-cpu-aws/cpu/matrix/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c src/convolution/cpu.c -o build/A-20261006-232110-part81-cpu-aws/cpu/convolution/cpu.o
+ar rcs build/A-20261006-232110-part81-cpu-aws/liblab6_cpu.a build/A-20261006-232110-part81-cpu-aws/cpu/matrix/cpu.o build/A-20261006-232110-part81-cpu-aws/cpu/convolution/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c apps/harness.c -o build/A-20261006-232110-part81-cpu-aws/apps/harness.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic apps/bench_cpu.c build/A-20261006-232110-part81-cpu-aws/apps/harness.o build/A-20261006-232110-part81-cpu-aws/liblab6_cpu.a \
+	 -lm -o build/A-20261006-232110-part81-cpu-aws/bench_cpu
+
+exit_code=0

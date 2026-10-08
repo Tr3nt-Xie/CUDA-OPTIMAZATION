@@ -1,0 +1,4 @@
+$ /home/ubuntu/CUDA-OPTIMAZATION/build/A-20261006-232110-part81-cpu-aws/bench_cpu conv --image /home/ubuntu/CUDA-OPTIMAZATION/data/generated/geometry_512.u32 --k 3 --filter mean --member A --csv /home/ubuntu/CUDA-OPTIMAZATION/results/raw/A-20261006-232110-part81-cpu-aws/geometry-M512-K3-mean.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001 --save /home/ubuntu/CUDA-OPTIMAZATION/data/generated/A-20261006-232110-part81-cpu-aws/geometry-M512-K3-mean.f32
+ok   cpu       M=512 K=3 filter=mean        compute      5.317 ms  end_to_end      5.317 ms  max_abs_err 3.24e-05
+
+exit_code=0

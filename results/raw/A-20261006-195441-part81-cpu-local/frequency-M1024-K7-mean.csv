@@ -1,7 +1,0 @@
-member,operation,implementation,N,M,K,filter,timing_scope,run,time_ms,correct,max_abs_error
-A,convolution,cpu,,1024,7,mean,compute,1,38.672000,true,0.000118433
-A,convolution,cpu,,1024,7,mean,end_to_end,1,38.672000,true,0.000118433
-A,convolution,cpu,,1024,7,mean,compute,2,38.523000,true,0.000118433
-A,convolution,cpu,,1024,7,mean,end_to_end,2,38.523000,true,0.000118433
-A,convolution,cpu,,1024,7,mean,compute,3,38.944000,true,0.000118433
-A,convolution,cpu,,1024,7,mean,end_to_end,3,38.944000,true,0.000118433

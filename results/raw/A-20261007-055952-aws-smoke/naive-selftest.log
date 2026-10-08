@@ -1,0 +1,7 @@
+PASS reference matmul hand 2x2                      max_abs_err 0
+PASS reference conv hand asymmetric                 max_abs_err 0
+PASS naive     matmul hand 2x2 (timings=NULL)       max_abs_err 0
+PASS naive     matmul random N=2                    max_abs_err 1.25e-08
+PASS naive     matmul random N=3                    max_abs_err 6.33e-08
+PASS naive     matmul random N=31                   max_abs_err 2.84e-06
+selftest: all passed

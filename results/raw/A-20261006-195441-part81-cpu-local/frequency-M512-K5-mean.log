@@ -1,4 +1,0 @@
-$ /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/build/A-20261006-195441-part81-cpu-local/bench_cpu conv --image /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/data/generated/frequency_512.u32 --k 5 --filter mean --member A --csv /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/results/raw/A-20261006-195441-part81-cpu-local/frequency-M512-K5-mean.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001
-ok   cpu       M=512 K=5 filter=mean        compute      4.218 ms  end_to_end      4.218 ms  max_abs_err 6.01e-05
-
-exit_code=0

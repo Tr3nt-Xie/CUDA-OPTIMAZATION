@@ -1,0 +1,193 @@
+$ ps -eo user,pid,pcpu,pmem,args
+USER         PID %CPU %MEM COMMAND
+root           1  0.0  0.0 /sbin/init
+root           2  0.0  0.0 [kthreadd]
+root           3  0.0  0.0 [pool_workqueue_release]
+root           4  0.0  0.0 [kworker/R-rcu_g]
+root           5  0.0  0.0 [kworker/R-rcu_p]
+root           6  0.0  0.0 [kworker/R-slub_]
+root           7  0.0  0.0 [kworker/R-netns]
+root           9  0.0  0.0 [kworker/0:0H-kblockd]
+root          12  0.0  0.0 [kworker/R-mm_pe]
+root          13  0.0  0.0 [rcu_tasks_rude_kthread]
+root          14  0.0  0.0 [rcu_tasks_trace_kthread]
+root          15  0.0  0.0 [ksoftirqd/0]
+root          16  0.0  0.0 [rcu_sched]
+root          17  0.0  0.0 [migration/0]
+root          18  0.0  0.0 [idle_inject/0]
+root          19  0.0  0.0 [cpuhp/0]
+root          20  0.0  0.0 [cpuhp/1]
+root          21  0.0  0.0 [idle_inject/1]
+root          22  0.0  0.0 [migration/1]
+root          23  0.0  0.0 [ksoftirqd/1]
+root          25  0.0  0.0 [kworker/1:0H-kblockd]
+root          26  0.0  0.0 [cpuhp/2]
+root          27  0.0  0.0 [idle_inject/2]
+root          28  0.0  0.0 [migration/2]
+root          29  0.0  0.0 [ksoftirqd/2]
+root          31  0.0  0.0 [kworker/2:0H-events_highpri]
+root          32  0.0  0.0 [cpuhp/3]
+root          33  0.0  0.0 [idle_inject/3]
+root          34  0.0  0.0 [migration/3]
+root          35  0.0  0.0 [ksoftirqd/3]
+root          36  0.0  0.0 [kworker/3:0-events]
+root          37  0.0  0.0 [kworker/3:0H-events_highpri]
+root          38  0.0  0.0 [cpuhp/4]
+root          39  0.0  0.0 [idle_inject/4]
+root          40  0.0  0.0 [migration/4]
+root          41  0.0  0.0 [ksoftirqd/4]
+root          43  0.0  0.0 [kworker/4:0H-kblockd]
+root          44  0.0  0.0 [cpuhp/5]
+root          45  0.0  0.0 [idle_inject/5]
+root          46  0.0  0.0 [migration/5]
+root          47  0.0  0.0 [ksoftirqd/5]
+root          49  0.0  0.0 [kworker/5:0H-events_highpri]
+root          50  0.0  0.0 [cpuhp/6]
+root          51  0.0  0.0 [idle_inject/6]
+root          52  0.0  0.0 [migration/6]
+root          53  0.0  0.0 [ksoftirqd/6]
+root          54  0.0  0.0 [kworker/6:0-events]
+root          55  0.0  0.0 [kworker/6:0H-events_highpri]
+root          56  0.0  0.0 [cpuhp/7]
+root          57  0.0  0.0 [idle_inject/7]
+root          58  0.0  0.0 [migration/7]
+root          59  0.0  0.0 [ksoftirqd/7]
+root          61  0.0  0.0 [kworker/7:0H-events_highpri]
+root          62  0.0  0.0 [kdevtmpfs]
+root          63  0.0  0.0 [kworker/R-inet_]
+root          64  0.0  0.0 [kauditd]
+root          65  0.0  0.0 [khungtaskd]
+root          66  0.0  0.0 [oom_reaper]
+root          67  0.0  0.0 [kworker/u16:1-events_power_efficient]
+root          68  0.0  0.0 [kworker/R-write]
+root          70  0.0  0.0 [kcompactd0]
+root          71  0.0  0.0 [ksmd]
+root          72  0.0  0.0 [khugepaged]
+root          73  0.0  0.0 [kworker/R-kinte]
+root          74  0.0  0.0 [kworker/R-kbloc]
+root          75  0.0  0.0 [kworker/R-blkcg]
+root          76  0.0  0.0 [kworker/1:1-events]
+root          77  0.0  0.0 [irq/9-acpi]
+root          79  0.0  0.0 [kworker/4:1-cgroup_release]
+root          80  0.0  0.0 [kworker/R-tpm_d]
+root          81  0.0  0.0 [kworker/R-ata_s]
+root          82  0.0  0.0 [kworker/R-md]
+root          83  0.0  0.0 [kworker/R-md_bi]
+root          84  0.0  0.0 [kworker/R-edac-]
+root          85  0.0  0.0 [kworker/R-devfr]
+root          86  0.0  0.0 [watchdogd]
+root          87  0.0  0.0 [kworker/R-quota]
+root          88  0.0  0.0 [kworker/1:1H]
+root          89  0.0  0.0 [kswapd0]
+root          90  0.0  0.0 [ecryptfs-kthread]
+root          91  0.0  0.0 [kworker/R-kthro]
+root          92  0.0  0.0 [kworker/R-acpi_]
+root          93  0.0  0.0 [kworker/R-nvme-]
+root          94  0.0  0.0 [kworker/R-nvme-]
+root          95  0.0  0.0 [kworker/R-nvme-]
+root          96  0.0  0.0 [kworker/R-nvme-]
+root          99  0.0  0.0 [kworker/2:1-events]
+root         100  0.0  0.0 [kworker/R-mld]
+root         101  0.0  0.0 [kworker/R-ipv6_]
+root         108  0.0  0.0 [kworker/R-kstrp]
+root         111  0.0  0.0 [kworker/5:1-events]
+root         112  0.0  0.0 [kworker/7:1-cgroup_release]
+root         114  0.0  0.0 [kworker/u17:0]
+root         127  0.0  0.0 [kworker/R-charg]
+root         128  0.0  0.0 [jbd2/nvme0n1p1-8]
+root         129  0.0  0.0 [kworker/R-ext4-]
+root         130  0.0  0.0 [kworker/2:1H-kblockd]
+root         131  0.0  0.0 [kworker/7:1H-kblockd]
+root         133  0.0  0.0 [kworker/3:1H-kblockd]
+root         156  0.0  0.0 [kworker/0:1H-kblockd]
+root         158  0.0  0.0 [kworker/5:1H-kblockd]
+root         167  0.0  0.0 [kworker/6:1H-kblockd]
+root         168  0.0  0.0 [kworker/4:1H-kblockd]
+root         175  0.0  0.0 /lib/systemd/systemd-journald
+root         196  0.0  0.0 [kworker/0:2-events]
+root         205  0.0  0.0 [kworker/R-ib-co]
+root         206  0.0  0.0 [kworker/R-ib-co]
+root         207  0.0  0.0 [kworker/R-ib_mc]
+root         208  0.0  0.0 [kworker/R-ib_nl]
+root         219  0.0  0.0 [kworker/R-kalua]
+root         220  0.0  0.0 [kworker/R-kmpat]
+root         221  0.0  0.0 [kworker/R-kmpat]
+root         222  0.0  0.0 [kworker/R-kmpat]
+root         223  0.0  0.0 /sbin/multipathd -d -s
+root         228  0.0  0.0 /lib/systemd/systemd-udevd
+root         296  0.0  0.0 [kworker/R-ena]
+root         315  0.0  0.0 [kworker/R-crypt]
+root         325  0.0  0.0 [kworker/R-nfit]
+root         334  0.0  0.0 [kworker/u16:8-events_power_efficient]
+root         361  0.0  0.0 [kworker/4:2-events]
+root         397  0.0  0.0 [nv_queue]
+root         398  0.0  0.0 [nv_mem_pool_scrubber_queue]
+root         399  0.0  0.0 [nv_mem_pool_scrubber_queue]
+root         400  0.0  0.0 [nv_mem_pool_scrubber_queue]
+root         401  0.0  0.0 [nv_queue]
+root         402  0.0  0.0 [nv_open_q]
+systemd+     450  0.0  0.0 /lib/systemd/systemd-networkd
+systemd+     452  0.0  0.0 /lib/systemd/systemd-resolved
+root         572  0.0  0.0 /usr/sbin/acpid
+root         576  0.0  0.0 /usr/sbin/cron -f -P
+message+     577  0.0  0.0 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+root         589  0.0  0.0 /usr/sbin/irqbalance --foreground
+root         593  0.0  0.0 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+root         599  0.7  0.1 /usr/bin/nv-hostengine -n --service-account nvidia-dcgm
+syslog       604  0.0  0.0 /usr/sbin/rsyslogd -n -iNONE
+root         605  0.0  0.0 /snap/amazon-ssm-agent/13349/amazon-ssm-agent
+root         608  0.1  0.1 /usr/lib/snapd/snapd
+root         609  0.0  0.1 /usr/local/bin/soci-snapshotter-grpc --root /var/lib/soci-snapshotter-grpc --address fd://
+root         610  0.0  0.0 /lib/systemd/systemd-logind
+_chrony      613  0.0  0.0 /usr/sbin/chronyd -F 1
+root         631  0.0  0.0 /sbin/agetty -o -p -- \u --keep-baud 115200,57600,38400,9600 ttyS0 vt220
+_chrony      659  0.0  0.0 /usr/sbin/chronyd -F 1
+root         661  0.0  0.0 /sbin/agetty -o -p -- \u --noclear tty1 linux
+root         687  0.0  0.0 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root         701  0.0  0.0 /usr/libexec/polkitd --no-debug
+root         847  0.0  0.0 [kworker/R-kdmfl]
+root         852  0.0  0.0 [kworker/R-tls-s]
+root         898  0.0  0.0 sshd: /usr/sbin/sshd -D -o AuthorizedKeysCommand /usr/share/ec2-instance-connect/eic_run_authorized_keys %u %f -o AuthorizedKeysCommandUser ec2-instance-connect [listener] 0 of 10-100 startups
+root         903  0.0  0.0 [irq/45-nvidia]
+root         904  0.0  0.0 [irq/46-nvidia]
+root         905  0.0  0.0 [irq/47-nvidia]
+root         906  0.0  0.0 [irq/48-nvidia]
+root         907  0.0  0.0 [irq/49-nvidia]
+root         908  0.0  0.0 [irq/50-nvidia]
+root         909  0.0  0.0 [nvidia]
+root         910  0.0  0.0 [nv_queue]
+root        1069  0.0  0.0 [UVM global queue]
+root        1070  0.0  0.0 [UVM deferred release queue]
+root        1071  0.0  0.0 [UVM Tools Event Queue]
+root        1100  0.0  0.0 nvidia-persistenced
+root        1107  0.0  0.0 [nvidia-modeset/kthread_q]
+root        1108  0.0  0.0 [nvidia-modeset/deferred_close_kthread_q]
+root        1159  0.0  0.0 [jbd2/dm-0-8]
+root        1160  0.0  0.0 [kworker/R-ext4-]
+root        1169  5.9  0.1 /usr/bin/containerd
+root        1182  0.9  0.3 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+root        1898  0.0  0.0 /usr/libexec/packagekitd
+root        3456  0.0  0.0 [kworker/2:0-rcu_gp]
+root        3700  0.0  0.0 [kworker/1:0]
+root        3719  0.0  0.0 [kworker/7:3-events]
+root        3786  0.0  0.0 [kworker/5:0-rcu_gp]
+root        3787  0.0  0.0 [kworker/u16:0-events_power_efficient]
+root        3798  0.0  0.0 [kworker/3:2-cgroup_free]
+root        3878  0.0  0.0 [kworker/u16:2-events_power_efficient]
+root        3881  0.0  0.0 [kworker/0:0-events]
+root        3882  0.0  0.0 [kworker/6:1-cgroup_release]
+root        3894  0.0  0.0 [kworker/2:2-cgroup_free]
+root        3899  0.0  0.0 [kworker/6:2-cgroup_release]
+root        3961  0.0  0.0 [kworker/5:2]
+root        3963  0.0  0.0 [kworker/0:1-events]
+root        3964  0.0  0.0 [kworker/0:3]
+root        3965  0.0  0.0 [kworker/6:3-cgroup_free]
+root        3966  0.0  0.0 sshd: ubuntu [priv]
+ubuntu      3969  1.6  0.0 /lib/systemd/systemd --user
+ubuntu      3970  0.0  0.0 (sd-pam)
+ubuntu      4022  0.0  0.0 sshd: ubuntu@notty
+ubuntu      4023  0.0  0.0 bash -s
+ubuntu      4024 31.0  0.1 python scripts/run_part_a_matrix.py --run-id A-20261006-232110-matrix-aws --context Shared AWS us-west-2 g4dn.2xlarge: single-thread Xeon 8259CL CPU and NVIDIA T4 naive CUDA; same host; one warm-up and three measured calls.
+ubuntu      4270  0.0  0.0 ps -eo user,pid,pcpu,pmem,args
+
+exit_code=0

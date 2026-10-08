@@ -1,4 +1,0 @@
-$ /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/build/A-20261006-195302-part81-cpu-local/bench_cpu conv --image /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/data/generated/soft_scene_512.u32 --k 3 --filter sharpen --member A --csv /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/results/raw/A-20261006-195302-part81-cpu-local/soft_scene-M512-K3-sharpen.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001 --save /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/data/generated/A-20261006-195302-part81-cpu-local/soft_scene-M512-K3-sharpen.f32
-ok   cpu       M=512 K=3 filter=sharpen     compute      2.188 ms  end_to_end      2.188 ms  max_abs_err 5.61e-05
-
-exit_code=0

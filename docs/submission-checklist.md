@@ -1,6 +1,6 @@
 # Lab6 分工与交付检查表
 
-依据：`lab6-f26.pdf`，共 8 页。下表为任务分配和交付位置。A 的框架、CPU 矩阵/卷积、naive CUDA 代码已写好（naive 尚未在 GPU 上编译运行）。Part 8.1 图片与 CPU 本地实验已验证；统一实验机上的 CPU/GPU 对比待运行，AWS 部署暂缓。A/B/C 姓名待填。
+依据：`lab6-f26.pdf`，共 8 页。A 的 Parts 1–3、8.1 实验和报告材料已完成：AWS 同机 CPU/naive 正式与补充矩阵、CPU 卷积、GPU 容器运行均通过。Q1/Q2 已写入 report/A.md 和仓库外的 A 视频脚本；实际录像、B/C 材料及全组最终合并尚待完成。A/B/C 姓名待填。
 
 表中的文件路径是当前骨架的位置。各成员按实验文档完成本人 Part，内部实现与文件组织由本人决定；接入时保持接口和结果口径一致。
 
@@ -14,7 +14,7 @@
 | 6.1 · p4–5 | C | src/matrix/cublas.cu | 同尺寸 cuBLAS 对照、正确性与计时 |
 | 6.2 · p5 | B | src/matrix/optimized.cu | 进一步优化尝试、方法来源、前后数据与视频解释 |
 | 7 · p5–7 | C，依赖 B | src/bindings/exports.cu，python | Part 4 共享库、ctypes 调用和正确输出 |
-| 8.1 · p7 | A | src/convolution/cpu.c，数据/滤波器生成 | 本地已验证：3 张图、3×3 尺寸组合、边缘/锐化展示；材料在 report/A.md，同机对比计时待补 |
+| 8.1 · p7 | A | src/convolution/cpu.c，数据/滤波器生成 | AWS 同机已完成：3 张图、3×3 尺寸组合、边缘/锐化展示、99 次计时；report/A.md，输入/输出已放只读共享目录 |
 | 8.2 · p8 | B，依赖 A 的输入 | src/convolution/cuda.cu | 同输入 CPU/CUDA 数值与性能对照 |
 | 8.3 · p8 | C，依赖 B | 卷积共享库与 Python 入口 | CPU C / 独立 CUDA / Python CUDA 三方比较 |
 | Deliverables · p8 | 全员 | GitHub 源码及可复现说明 | CPU、CUDA、优化、cuBLAS、共享库、Python 全部可定位；视频含曲线、规模变化、开销、优化取舍、共享库说明 |
@@ -23,7 +23,7 @@
 
 | 题号 | 内容 | 主答 / 数据来源 |
 |---|---|---|
-| Q1 | 性能如何随矩阵规模变化 | A；使用 C 汇总图表 |
+| Q1 | 性能如何随矩阵规模变化 | A；CPU/naive 曲线已完成，最终由 C 合入全组图表 |
 | Q2 | 从什么规模起 GPU 明显更快 | A；分清 compute / end_to_end |
 | Q3 | tiled 相比 naive 的效果 | B |
 | Q4 | 手工优化与 cuBLAS 比较 | C；B 提供优化说明 |
@@ -42,8 +42,12 @@
 
 ## 最后收尾
 
-- [x] A 的 8.1 本地材料：三张原图及来源、33 个配置/99 次计时运行、9 份独立检查、报告效果图。记录见 `results/README.md`。
-- [ ] A 的 8.1 对比数据：在最终实验机用同一输入重新采集 CPU 耗时，交给 B/C。
+- [x] A 的共用 AWS T4 环境：三人 SSH 账号、宿主机 CPU/naive 自测、GPU 容器编译运行及 N=256 小规模检查；证据见 `docs/ENVIRONMENT.md`。
+- [x] A 的正式矩阵数据：四种正式尺寸和四种补充小尺寸，48 次计时调用全部通过；Part 1/2 曲线和 Q1/Q2 答案已准备。
+- [x] A 的 8.1 对比数据：三张原图及来源（`data/README.md`）、AWS 同机 33 个配置、99 次计时调用、9 份独立检查、报告效果图；固定输入/CPU 输出已放只读共享目录并验证 B/C 可读。
+- [x] A 的 Part 3 容器执行：容器内编译、自检及 N=256/512/1024 的九次计时调用全部通过。
+- [x] A 的双语报告与录制脚本：report/A.md；仓库外 lab6/A-video-script.md，镜头 3/4 分别回答 Q1/Q2。
+- [ ] A：按脚本录制视频片段，交给 C 合并。
 
 - [ ] A：合并报告，确保 Part 1 曲线、Part 8.1 图像及相关实验材料齐全。
 - [ ] B：干净检出后核对 CPU/GPU 构建、所有源文件、README 和复现流程。

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run A's Part 8.1 CPU image checks and preserve local measurement evidence.
+"""Run A's Part 8.1 CPU image checks and preserve measurement evidence.
 
 This runner does not deploy resources or benchmark a GPU. It deliberately keeps
 each image's measurements in a separate standard-format CSV.
@@ -173,6 +173,8 @@ def make_figures(images, outputs, folder, m, k):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default="A-" + datetime.now(TZ).strftime("%Y%m%d-%H%M%S") + "-part81-cpu-local")
+    parser.add_argument("--context", default="Local CPU development measurements; rerun CPU and CUDA on the same GPU host for speedups.",
+                        help="Describe the actual measurement host and purpose")
     args = parser.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9_-]+", args.run_id):
         parser.error("run-id must contain only letters, digits, underscores and hyphens")
@@ -183,7 +185,7 @@ def main():
     figures = ROOT / "results/figures" / args.run_id
     config = json.loads((ROOT / "configs/benchmark.json").read_text())
     manifest = {"run_id": args.run_id, "started_at": now(), "status": "running",
-                "measurement_context": "Local CPU development measurements; rerun CPU and CUDA on the same GPU host for speedups.",
+                "measurement_context": args.context,
                 "platform": platform.platform(), "python": sys.version,
                 "python_executable": sys.executable, "numpy": np.__version__,
                 "pillow": PIL.__version__, "config": config,
@@ -208,6 +210,7 @@ def main():
         build = Path("build") / args.run_id
         command(["make", f"BUILD={build}", "cpu"], raw, "build")
         exe = ROOT / build / "bench_cpu"
+        manifest["binary_sha256"] = {relative(exe): digest(exe)}
         command([exe, "selftest"], raw, "selftest")
         environment = command(["bash", "scripts/collect_env.sh"], raw, "collect-environment")
         if sys.platform == "darwin":

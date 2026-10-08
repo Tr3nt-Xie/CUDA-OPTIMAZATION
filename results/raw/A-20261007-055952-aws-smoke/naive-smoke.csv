@@ -1,0 +1,3 @@
+member,operation,implementation,N,M,K,filter,timing_scope,run,time_ms,correct,max_abs_error
+A,matrix,naive,256,,,,compute,1,0.065600,true,6.82556e-05
+A,matrix,naive,256,,,,end_to_end,1,0.567227,true,6.82556e-05

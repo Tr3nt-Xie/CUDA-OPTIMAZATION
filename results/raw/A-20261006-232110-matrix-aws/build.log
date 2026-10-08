@@ -1,0 +1,18 @@
+$ make -j4 BUILD=build/A-20261006-232110-matrix-aws 'NVCCFLAGS=-O2 -std=c++14 -arch=sm_75' all
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c src/matrix/cpu.c -o build/A-20261006-232110-matrix-aws/cpu/matrix/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c src/convolution/cpu.c -o build/A-20261006-232110-matrix-aws/cpu/convolution/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic -MMD -MP -c apps/harness.c -o build/A-20261006-232110-matrix-aws/apps/harness.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/naive.cu -o build/A-20261006-232110-matrix-aws/cuda/matrix/naive.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/tiled.cu -o build/A-20261006-232110-matrix-aws/cuda/matrix/tiled.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/optimized.cu -o build/A-20261006-232110-matrix-aws/cuda/matrix/optimized.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/matrix/cublas.cu -o build/A-20261006-232110-matrix-aws/cuda/matrix/cublas.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/convolution/cuda.cu -o build/A-20261006-232110-matrix-aws/cuda/convolution/cuda.o
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 -Xcompiler=-fPIC -c src/bindings/exports.cu -o build/A-20261006-232110-matrix-aws/cuda/bindings/exports.o
+ar rcs build/A-20261006-232110-matrix-aws/liblab6_cpu.a build/A-20261006-232110-matrix-aws/cpu/matrix/cpu.o build/A-20261006-232110-matrix-aws/cpu/convolution/cpu.o
+cc -Iinclude -Isrc -D_POSIX_C_SOURCE=200809L -O2 -std=c11 -Wall -Wextra -Wpedantic apps/bench_cpu.c build/A-20261006-232110-matrix-aws/apps/harness.o build/A-20261006-232110-matrix-aws/liblab6_cpu.a \
+	 -lm -o build/A-20261006-232110-matrix-aws/bench_cpu
+nvcc -O2 -std=c++14 -arch=sm_75 -shared build/A-20261006-232110-matrix-aws/cuda/matrix/naive.o build/A-20261006-232110-matrix-aws/cuda/matrix/tiled.o build/A-20261006-232110-matrix-aws/cuda/matrix/optimized.o build/A-20261006-232110-matrix-aws/cuda/matrix/cublas.o build/A-20261006-232110-matrix-aws/cuda/convolution/cuda.o build/A-20261006-232110-matrix-aws/cuda/bindings/exports.o  -lcublas -o build/A-20261006-232110-matrix-aws/liblab6_cuda.so
+nvcc -Iinclude -Isrc -O2 -std=c++14 -arch=sm_75 apps/bench_cuda.cu build/A-20261006-232110-matrix-aws/apps/harness.o -Lbuild/A-20261006-232110-matrix-aws -llab6_cuda \
+	-Xlinker -rpath -Xlinker '$ORIGIN'  -lm -o build/A-20261006-232110-matrix-aws/bench_cuda
+
+exit_code=0

@@ -1,4 +1,0 @@
-$ /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/build/A-20261006-195302-part81-cpu-local/bench_cpu conv --image /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/data/generated/soft_scene_2048.u32 --k 5 --filter mean --member A --csv /Users/wenxu/Desktop/USC/3-26Fall/EE542/lab6/CUDA-OPTIMAZATION/results/raw/A-20261006-195302-part81-cpu-local/soft_scene-M2048-K5-mean.csv --warmup 1 --runs 3 --atol 0.001 --rtol 0.0001
-ok   cpu       M=2048 K=5 filter=mean       compute     67.305 ms  end_to_end     67.305 ms  max_abs_err 7.91e-05
-
-exit_code=0
