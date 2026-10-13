@@ -141,8 +141,9 @@ int launchRegBlock(const float *dA, const float *dB, float *dC, int n) {
     return LAB6_CHECK_LAUNCH();
 }
 
-/* Smallest N that uses 128 x 128 tiles: it still gives 16 x 16 blocks. */
-constexpr int kLargeTileMinN = 2048;
+/* Tile choice by matrix size, measured on the shared T4 (report/B.md). */
+constexpr int kLargeTileMinN = 1024; /* 128 x 128 tiles, 8 x 8 per thread */
+constexpr int kMediumTileMinN = 512; /* 64 x 64 tiles, 8 x 8 per thread */
 
 } // namespace
 
@@ -152,10 +153,13 @@ int lab6_matmul_optimized(const float *A, const float *B, float *C, int N,
         A, B, C, N, timings,
         [](const float *dA, const float *dB, float *dC, int n) {
             /* Large tiles reuse each loaded value more, but a small matrix
-             * then has too few blocks to occupy every SM. Tile sizes were
-             * chosen by measurement; see report/B.md. */
+             * then has too few blocks to occupy every SM, so smaller
+             * matrices use smaller tiles and, below kMediumTileMinN, more
+             * threads per tile (4 x 4 outputs each). */
             if (n >= kLargeTileMinN)
                 return launchRegBlock<128, 128, 16, 8, 8>(dA, dB, dC, n);
-            return launchRegBlock<64, 64, 16, 8, 8>(dA, dB, dC, n);
+            if (n >= kMediumTileMinN)
+                return launchRegBlock<64, 64, 16, 8, 8>(dA, dB, dC, n);
+            return launchRegBlock<64, 64, 16, 4, 4>(dA, dB, dC, n);
         });
 }
