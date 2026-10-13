@@ -2,7 +2,7 @@
 
 本仓库包含矩阵乘法、卷积、CUDA 优化和 Python 共享库调用的代码及实验记录。
 
-**当前状态：框架（共用 CUDA 流程、测试程序、脚本）和 A 的 CPU / naive 实现已完成；B、C 的函数仍是返回 `LAB6_NOT_IMPLEMENTED` 的占位。**
+**当前状态：框架（共用 CUDA 流程、测试程序、脚本）和 A 的 CPU / naive 实现已完成；B 的 tiled / optimized / CUDA 卷积已实现并通过自检，T4 正式测量待完成（见 [B 的报告材料](report/B.md)）；C 的函数仍是返回 `LAB6_NOT_IMPLEMENTED` 的占位。**
 A 的 Parts 1–3、8.1 已完成 AWS 同机实验：四种正式矩阵尺寸及补充小尺寸共 48 次计时调用；CPU 卷积 33 个配置、99 次计时调用和 9 份独立图像检查全部通过。GPU 容器内也完成三种矩阵尺寸的运行，见 [A 的报告材料](report/A.md)、[原始数据和图表](results/README.md) 与 [实际环境记录](docs/ENVIRONMENT.md)。A 的 Q1/Q2 和录制脚本已准备，视频脚本位于仓库外；实际录制和全组材料合并尚待完成。
 任务依据为课程 `lab6-f26.pdf`（原文件保留在仓库外的实验目录）。
 
