@@ -5,6 +5,11 @@ namespace {
 constexpr int kTile = 16;
 /* Shared memory every block may request without opting in to more. */
 constexpr size_t kMaxSharedBytes = 48 * 1024;
+/* Smallest K that uses the shared-memory kernel. Measured on the shared T4:
+ * below this the direct kernel is as fast or slightly faster, because the
+ * overlapping reads of neighbouring threads are already served from cache
+ * (report/B.md). */
+constexpr int kTiledMinK = 9;
 
 /*
  * Part 8.2: CUDA convolution, same definition as the CPU version:
@@ -56,8 +61,8 @@ __global__ void convolveTiled(const uint32_t *image, const float *filter,
 
 /*
  * One thread per output pixel, reading the image and filter from global
- * memory. Used only when the window for convolveTiled does not fit in shared
- * memory (very large K).
+ * memory: a direct port of the CPU loop. Used for small K, and when the
+ * window for convolveTiled does not fit in shared memory (very large K).
  */
 __global__ void convolveDirect(const uint32_t *image, const float *filter,
                                float *output, int M, int K) {
@@ -94,7 +99,7 @@ int lab6_convolve_cuda(const uint32_t *image, const float *filter,
             const size_t w = static_cast<size_t>(kTile) + k - 1;
             const size_t sharedBytes =
                 (w * w + static_cast<size_t>(k) * k) * sizeof(float);
-            if (sharedBytes <= kMaxSharedBytes)
+            if (k >= kTiledMinK && sharedBytes <= kMaxSharedBytes)
                 convolveTiled<<<grid, block, sharedBytes>>>(dImage, dFilter,
                                                             dOutput, m, k);
             else
