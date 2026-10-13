@@ -1,0 +1,11 @@
+Part 8.2 kernel comparison on the shared AWS T4, kernel (compute) time in ms, mean of 15 calls after 1 warm-up, random input, mean filter.
+tiled = shared-memory window kernel, direct = one thread per pixel from global memory.
+M=512               K=3      K=5      K=7      K=9     K=11     K=15     K=21     K=31
+tiled             0.024    0.034    0.053    0.079    0.111    0.194    0.366    0.782
+direct            0.021    0.033    0.054    0.081    0.114    0.201    0.382    0.817
+M=1024              K=3      K=5      K=7      K=9     K=11     K=15     K=21     K=31
+tiled             0.069    0.106    0.179    0.280    0.408    0.737    1.420    3.062
+direct            0.067    0.101    0.182    0.288    0.418    0.759    1.466    3.173
+M=2048              K=3      K=5      K=7      K=9     K=11     K=15     K=21     K=31
+tiled             0.262    0.389    0.682    1.082    1.589    2.899    5.609   12.091
+direct            0.242    0.369    0.680    1.107    1.626    2.963    5.764   12.552

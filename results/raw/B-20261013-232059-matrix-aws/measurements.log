@@ -1,0 +1,12 @@
+ok   naive     N=256                        compute      0.066 ms  end_to_end      0.550 ms  max_abs_err 6.83e-05
+ok   tiled     N=256                        compute      0.047 ms  end_to_end      0.524 ms  max_abs_err 6.83e-05
+ok   optimized N=256                        compute      0.031 ms  end_to_end      0.503 ms  max_abs_err 6.83e-05
+ok   naive     N=512                        compute      0.442 ms  end_to_end      1.857 ms  max_abs_err 0.000214
+ok   tiled     N=512                        compute      0.287 ms  end_to_end      1.695 ms  max_abs_err 0.000214
+ok   optimized N=512                        compute      0.126 ms  end_to_end      1.549 ms  max_abs_err 0.000214
+ok   naive     N=1024                       compute      3.515 ms  end_to_end      6.951 ms  max_abs_err 0.00056
+ok   tiled     N=1024                       compute      2.175 ms  end_to_end      5.542 ms  max_abs_err 0.00056
+ok   optimized N=1024                       compute      0.541 ms  end_to_end      3.912 ms  max_abs_err 0.00056
+ok   naive     N=2048                       compute     31.545 ms  end_to_end     44.035 ms  max_abs_err 0.00161
+ok   tiled     N=2048                       compute     18.667 ms  end_to_end     31.246 ms  max_abs_err 0.00161
+ok   optimized N=2048                       compute      3.823 ms  end_to_end     16.373 ms  max_abs_err 0.00161

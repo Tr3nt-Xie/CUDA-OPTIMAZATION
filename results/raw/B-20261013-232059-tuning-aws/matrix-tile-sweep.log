@@ -1,0 +1,11 @@
+Part 6.2 tile sweep on the shared AWS T4, kernel (compute) time in ms, mean of 15 calls after 1 warm-up.
+Columns: tile BMxBN, BK, outputs per thread TMxTN. Build: source at feat/b-cuda 93e9f2d plus tuning-switches.patch.
+config                    N=256      N=512     N=1024     N=2048
+128x128 BK8 8x8           0.074      0.141      0.547      3.714 
+128x128 BK16 8x8          0.071      0.133      0.540      3.749 
+64x64 BK8 8x8             0.058      0.119      0.711      4.087 
+64x64 BK16 8x8            0.042      0.101      0.607      3.895 
+64x64 BK8 4x4             0.038      0.109      0.637      4.646 
+64x64 BK16 4x4            0.030      0.105      0.626      4.548 
+32x32 BK8 4x4             0.031      0.114      0.723      5.653 
+128x128 BK16 4x4          0.070      0.134      0.665      4.609 

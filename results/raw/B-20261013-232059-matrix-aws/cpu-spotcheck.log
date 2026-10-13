@@ -1,0 +1,2 @@
+ok   cpu       N=256                        compute     20.242 ms  end_to_end     20.242 ms  max_abs_err 6.83e-05
+ok   cpu       N=512                        compute    197.291 ms  end_to_end    197.291 ms  max_abs_err 0.000214

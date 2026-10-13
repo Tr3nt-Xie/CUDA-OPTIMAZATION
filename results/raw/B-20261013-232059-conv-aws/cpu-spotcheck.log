@@ -1,0 +1,1 @@
+ok   cpu       M=1024 K=5 filter=mean       compute     52.797 ms  end_to_end     52.797 ms  max_abs_err 8.13e-05

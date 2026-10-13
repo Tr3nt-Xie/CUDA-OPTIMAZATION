@@ -1,0 +1,13 @@
+member,operation,implementation,N,M,K,filter,timing_scope,run,time_ms,correct,max_abs_error
+B,matrix,cpu,256,,,,compute,1,20.217486,true,6.82556e-05
+B,matrix,cpu,256,,,,end_to_end,1,20.217486,true,6.82556e-05
+B,matrix,cpu,256,,,,compute,2,20.265385,true,6.82556e-05
+B,matrix,cpu,256,,,,end_to_end,2,20.265385,true,6.82556e-05
+B,matrix,cpu,256,,,,compute,3,20.243524,true,6.82556e-05
+B,matrix,cpu,256,,,,end_to_end,3,20.243524,true,6.82556e-05
+B,matrix,cpu,512,,,,compute,1,197.062056,true,0.000213739
+B,matrix,cpu,512,,,,end_to_end,1,197.062056,true,0.000213739
+B,matrix,cpu,512,,,,compute,2,197.632097,true,0.000213739
+B,matrix,cpu,512,,,,end_to_end,2,197.632097,true,0.000213739
+B,matrix,cpu,512,,,,compute,3,197.178676,true,0.000213739
+B,matrix,cpu,512,,,,end_to_end,3,197.178676,true,0.000213739

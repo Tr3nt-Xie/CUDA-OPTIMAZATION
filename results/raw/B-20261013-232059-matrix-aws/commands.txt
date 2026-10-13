@@ -1,0 +1,6 @@
+# Commands for B-20261013-232059-matrix-aws, run from the repository root on the shared AWS T4 host.
+export NVCCFLAGS="-O2 -std=c++14 -arch=sm_75"; make clean; make -j4 all
+build/bench_cpu selftest
+build/bench_cuda selftest --impl naive,tiled,optimized,cuda
+build/bench_cuda matrix --impl naive,tiled,optimized --member B --csv results/raw/B-20261013-232059-matrix-aws/measurements.csv
+build/bench_cpu matrix --impl cpu --n 256,512 --member B --csv results/raw/B-20261013-232059-matrix-aws/cpu-spotcheck.csv

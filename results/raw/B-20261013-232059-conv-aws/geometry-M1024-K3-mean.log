@@ -1,0 +1,1 @@
+ok   cuda      M=1024 K=3 filter=mean       compute      0.068 ms  end_to_end      2.561 ms  max_abs_err 3.77e-05

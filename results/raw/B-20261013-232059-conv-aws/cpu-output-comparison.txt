@@ -1,0 +1,12 @@
+CUDA output vs the CPU reference outputs in /opt/lab6-a-reference/20261006-232110/outputs (M=512, K=3)
+tolerance: abs(got - ref) <= 1e-3 + 1e-4 * abs(ref)
+ frequency     edge  frequency-M512-K3-edge.f32  max_abs_err 0.000e+00  True
+ frequency     mean  frequency-M512-K3-mean.f32  max_abs_err 3.052e-05  True
+ frequency  sharpen  frequency-M512-K3-sharpen.f32  max_abs_err 6.104e-05  True
+  geometry     edge  geometry-M512-K3-edge.f32  max_abs_err 0.000e+00  True
+  geometry     mean  geometry-M512-K3-mean.f32  max_abs_err 3.052e-05  True
+  geometry  sharpen  geometry-M512-K3-sharpen.f32  max_abs_err 4.578e-05  True
+soft_scene     edge  soft_scene-M512-K3-edge.f32  max_abs_err 0.000e+00  True
+soft_scene     mean  soft_scene-M512-K3-mean.f32  max_abs_err 3.052e-05  True
+soft_scene  sharpen  soft_scene-M512-K3-sharpen.f32  max_abs_err 4.578e-05  True
+all nine outputs match
