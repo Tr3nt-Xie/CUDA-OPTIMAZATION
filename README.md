@@ -2,7 +2,7 @@
 
 本仓库包含矩阵乘法、卷积、CUDA 优化和 Python 共享库调用的代码及实验记录。
 
-**当前状态：框架（共用 CUDA 流程、测试程序、脚本）和 A 的 CPU / naive 实现已完成；B 的 tiled / optimized / CUDA 卷积已实现，并在同一台 T4 上完成正式测量（见 [B 的报告材料](report/B.md)）；C 的函数仍是返回 `LAB6_NOT_IMPLEMENTED` 的占位。**
+**当前状态：框架（共用 CUDA 流程、测试程序、脚本）和 A 的 CPU / naive 实现已完成；B 的 tiled / optimized / CUDA 卷积已实现，并在同一台 T4 上完成正式测量（见 [B 的报告材料](report/B.md)）；C 的 cuBLAS、Python 接口、性能采集与汇总绘图代码已实现，运行方法见 [Python 与 C 部分说明](python/README.md)。**
 A 的 Parts 1–3、8.1 已完成 AWS 同机实验：四种正式矩阵尺寸及补充小尺寸共 48 次计时调用；CPU 卷积 33 个配置、99 次计时调用和 9 份独立图像检查全部通过。GPU 容器内也完成三种矩阵尺寸的运行，见 [A 的报告材料](report/A.md)、[原始数据和图表](results/README.md) 与 [实际环境记录](docs/ENVIRONMENT.md)。A 的 Q1/Q2 和录制脚本已准备，视频脚本位于仓库外；实际录制和全组材料合并尚待完成。
 任务依据为课程 `lab6-f26.pdf`（原文件保留在仓库外的实验目录）。
 
@@ -72,7 +72,7 @@ A/B/C 是分工代号，不代表已完成的贡献。具体交接见 [提交清
 
 组内统一的接口、数据、测试和提交规范继续适用，详见 [统一开发和测试约定](docs/CONTRACTS.md)，公共声明见 [lab6.h](include/lab6.h)。`src/common/cuda_utils.cuh` 是 A 的 naive 实现使用的辅助代码，可按需复用。
 
-现有测试入口支持 `bench_cuda selftest --impl <名字>`，可只检查本人实现。其他成员尚未完成的函数保留占位状态；出现 `LAB6_NOT_IMPLEMENTED` 不代表需要代做其任务。
+现有测试入口支持 `bench_cuda selftest --impl <名字>`，可只检查本人实现。本仓库已包含 CPU、naive、tiled、optimized、cuBLAS 和 CUDA 卷积实现，可用 `--impl` 选择要检查的实现。
 
 合入 main 前通过 `make cpu`，有 CUDA 环境时同时通过 `make cuda`；提交的 C/CUDA 代码使用仓库 `.clang-format`。每人使用自己的 Git 身份，公共接口、配置或构建方式调整时说明影响并同步给全组。
 
@@ -108,7 +108,7 @@ scripts/collect_env.sh > "$lab6_run_dir/environment.txt"
 build/bench_cuda matrix --impl naive --member A --csv "$lab6_run_dir/measurements.csv"
 ```
 
-完整参数见 [apps/README.md](apps/README.md)，图片转换见 [scripts/README.md](scripts/README.md)。[Python 接口现状](python/README.md) 和全组性能对比结果尚待 C 完成。
+完整参数见 [apps/README.md](apps/README.md)，图片转换见 [scripts/README.md](scripts/README.md)。[Python 接口、C 部分运行说明和绘图命令](python/README.md) 已提供；新采集的结果保存到独立 run ID 目录。
 
 Mac 上可完成 CPU 正确性验证、图片效果展示及本地计时；正式 CPU/GPU 性能对比使用统一实验机的数据。A 的 AWS CPU/naive 基线已采集，B/C 的后续实现可按同一口径对照。共用环境的连接信息由 A 单独提供；固定输入和 CPU 参考输出位于实验机只读目录 `/opt/lab6-a-reference/20261006-232110/`，详见结果入口。
 
