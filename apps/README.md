@@ -1,30 +1,30 @@
-# 统一测试程序（A 维护）
+# Shared Benchmark Program (maintained by A)
 
-`harness.c` 负责参数解析、按 seed 生成输入或读取图片、调用 `lab6_*`、与双精度参考比对、预热 + 计时、输出 CSV。
-`bench_cpu.c`（`make cpu`）和 `bench_cuda.cu`（`make cuda`）登记了当前实现入口；接入现有接口后，可用 `--impl` 选择要测试的实现。
+`harness.c` handles argument parsing, generating inputs from a seed or reading images, calling `lab6_*`, comparing against the double-precision reference, warm-up + timing, and CSV output.
+`bench_cpu.c` (`make cpu`) and `bench_cuda.cu` (`make cuda`) register the current implementation entry points; once an implementation is connected to the existing interface, select it with `--impl`.
 
-| 程序 | 实现名 |
+| Program | Implementation names |
 |---|---|
-| build/bench_cpu | `cpu`（矩阵 + 卷积） |
-| build/bench_cuda | `naive` `tiled` `optimized` `cublas`（矩阵），`cuda`（卷积） |
+| build/bench_cpu | `cpu` (matrix + convolution) |
+| build/bench_cuda | `naive` `tiled` `optimized` `cublas` (matrix), `cuda` (convolution) |
 
-其他实现尚未完成时，显式使用 `--impl` 选择本人已完成的实现；默认 `all` 会调用相应操作下的全部入口，包括占位函数。统一参数以 `configs/benchmark.json` 为准；当前默认值与其一致，程序不直接读取 JSON。
+While other implementations are unfinished, use `--impl` explicitly to select the ones that are done; the default `all` calls every entry point for the operation, including placeholders. `configs/benchmark.json` is the source of truth for shared parameters; the current defaults match it, but the program does not read the JSON directly.
 
 ```text
 bench_* <selftest|matrix|conv> [options]
-  --impl LIST     逗号分隔的实现名或 all（默认 all）
-  --n LIST        矩阵尺寸（默认 256,512,1024,2048）
-  --m LIST        图像尺寸（默认 512,1024,2048）
-  --k LIST        滤波器尺寸（默认 3,5,7）
-  --filter NAME   mean|edge|sharpen（默认 mean）
-  --image PATH    data/generated 下的 .u32 图片；不给则按 seed 随机生成
-  --save PATH     保存 float32 输出（仅限一个实现 / 一个 M / 一个 K）
-  --csv PATH      追加写 CSV，文件为空时写表头；父目录需事先存在
-  --member NAME   CSV 的 member 列（默认取环境变量 LAB6_MEMBER）
-  --warmup N --runs N --seed N --atol X --rtol X   默认 1 / 3 / 542 / 1e-3 / 1e-4
+  --impl LIST     comma-separated implementation names, or all (default all)
+  --n LIST        matrix sizes (default 256,512,1024,2048)
+  --m LIST        image sizes (default 512,1024,2048)
+  --k LIST        filter sizes (default 3,5,7)
+  --filter NAME   mean|edge|sharpen (default mean)
+  --image PATH    .u32 image under data/generated; random from the seed if omitted
+  --save PATH     save the float32 output (only one implementation / one M / one K)
+  --csv PATH      append to a CSV, writing the header if the file is empty; the parent directory must exist
+  --member NAME   member column in the CSV (default: the LAB6_MEMBER environment variable)
+  --warmup N --runs N --seed N --atol X --rtol X   defaults 1 / 3 / 542 / 1e-3 / 1e-4
 ```
 
-- `selftest`：手算样例（非对称矩阵、只有左上角非零的卷积核，可区分卷积与互相关）、尺寸 2/3/31 随机用例、`timings=NULL` 路径、非法参数拒绝。
-- `matrix` / `conv`：每个配置先预热，再测 `--runs` 次；每次运行写 compute 和 end_to_end 两行 CSV，终端打印均值。
-- 库函数返回非零状态（包括未实现）时，该次调用不写计时行，程序最终退出码为 1。测量阶段库函数返回成功、但数值校验失败的行保留 `correct=false`，程序同样非零退出；参数错误退出码为 2。
-- 双精度参考算 N=2048 需要几秒，同一次调用里多个实现共用一份；需要比较多个实现时用逗号一起传。
+- `selftest`: hand-computed cases (a nonsymmetric matrix, and a convolution filter that is nonzero only in its top-left corner, which distinguishes convolution from correlation), random cases at sizes 2/3/31, the `timings=NULL` path, and rejection of invalid arguments.
+- `matrix` / `conv`: each configuration is warmed up and then measured `--runs` times; every run writes two CSV rows, compute and end_to_end, and the terminal prints the means.
+- When a library function returns a nonzero status (including not implemented), that call writes no timing rows and the program finally exits with 1. During measurement, rows where the library call succeeded but numerical validation failed are kept with `correct=false`, and the program also exits nonzero; argument errors exit with 2.
+- The double-precision reference takes a few seconds at N=2048 and is shared by all implementations in the same invocation; to compare several implementations, pass them together separated by commas.

@@ -1,10 +1,11 @@
-# 报告材料
+# Report Materials
 
-本目录保存各成员负责部分的报告材料，内容按实验文档安排，最后由 A 合并。负责范围见 `docs/submission-checklist.md`。
+This directory holds the report materials for each member's Parts, organized according to the handout, to be merged by A at the end. See `docs/submission-checklist.md` for responsibilities.
 
-当前已有：
+Currently available:
 
-- [A.md](A.md)：A 的 Parts 1–3、8.1 英文材料，包含同一 AWS T4 主机上的 CPU/naive 矩阵曲线与计时表、容器运行说明、CPU 卷积效果图和性能表。
-- [B.md](B.md)：B 的 Parts 4、6.2、8.2 英文材料，包含实现说明、优化方法来源、同一 AWS T4 主机上的矩阵与卷积计时表、正确性验证和 Q3 答案。
+- [A.md](A.md): A's English materials for Parts 1–3 and 8.1, including CPU/naive matrix curves and timing tables from the same AWS T4 host, the container run, CPU convolution result images, and performance tables.
+- [B.md](B.md): B's English materials for Parts 4, 6.2, and 8.2, including implementation notes, sources of the optimization methods, matrix and convolution timing tables from the same AWS T4 host, correctness checks, and the Q3 answer.
+- [C.md](C.md): C's English materials for Parts 5, 6.1, 7, and 8.3, including the cuBLAS implementation, runtime curves for all six implementations, the Q4/Q5 answers, and the Python shared-library integration. Provided by C; when merging, only stale status sentences were updated and a source-version note was added.
 
-A 的实验材料已完成，Q1/Q2 口播位于代码仓库外的 `lab6/A-video-script.md`；实测来源见 `results/README.md`。实际录像、B/C 材料和全组最终报告合并尚待完成。当前不创建空的最终报告。
+See `results/README.md` for where the measurements come from. Merging the team's final report is still pending; no empty final report is created for now.

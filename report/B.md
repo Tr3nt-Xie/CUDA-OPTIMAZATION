@@ -125,6 +125,5 @@ The exact commands of each batch are in its `commands.txt`.
 
 ## Pending
 
-- Comparison of the optimized kernel with cuBLAS (Part 6.1, Q4), once C's implementation is available.
-- Video segment for Parts 4, 6.2 and 8.2.
+- Comparison of the optimized kernel with cuBLAS (Part 6.1, Q4): answered in [report/C.md](C.md).
 - Clean-checkout build and reproduction check of the whole repository after all parts are merged.

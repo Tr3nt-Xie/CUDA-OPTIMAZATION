@@ -1,64 +1,64 @@
-# 脚本
+# Scripts
 
-下表只列现有工具。C 的性能对比与分析按实验文档完成，脚本拆分及文件命名由 C 决定。
+The table lists only the existing tools. C's performance comparison and analysis follow the handout; how C splits and names those scripts is up to C.
 
-| 脚本 | 负责人 | 作用 | 状态 |
+| Script | Owner | Purpose | Status |
 |---|---|---|---|
-| prepare_images.py | A | 图片 ↔ 测试程序用的原始二进制 | 已完成 |
-| generate_test_images.py | A | 生成三张原创、可复现的灰度测试图 | 已完成 |
-| run_part81_cpu.py | A | 8.1 CPU 图片实验、独立正确性核对、CSV 汇总和效果图 | Mac 验证及 AWS 同机正式测量通过 |
-| run_part_a_matrix.py | A | 同机 CPU/naive 正式矩阵基线与 Q2 补充小尺寸测量 | AWS T4 测量通过 |
-| plot_part_a.py | A | 从已通过的矩阵批次生成曲线、加速比与来源记录 | 正式数据绘图完成 |
-| collect_env.sh | A | 生成 environment.txt | 已完成 |
+| prepare_images.py | A | Images ↔ raw binaries used by the benchmark program | Done |
+| generate_test_images.py | A | Generates three original, reproducible grayscale test images | Done |
+| run_part81_cpu.py | A | Part 8.1 CPU image experiments, independent correctness checks, CSV summary, and result images | Validated on a Mac and in formal same-host AWS measurements |
+| run_part_a_matrix.py | A | Same-host CPU/naive formal matrix baseline and supplementary small sizes for Q2 | Measured on the AWS T4 |
+| plot_part_a.py | A | Generates curves, speedups, and provenance records from a passed matrix batch | Plots of the formal data done |
+| collect_env.sh | A | Generates environment.txt | Done |
 
-依赖：Python 3.9+，`python3 -m pip install -r scripts/requirements.txt`（NumPy、Pillow；Matplotlib 用于矩阵绘图）。
+Dependencies: Python 3.9+, `python3 -m pip install -r scripts/requirements.txt` (NumPy, Pillow; Matplotlib for the matrix plots).
 
-## A 的同机矩阵实验
+## A's same-host matrix experiments
 
-在空闲的 CUDA 实验机上运行；脚本只采集 A 的 CPU/naive，不会启动云资源或调用 B/C 的占位实现。
+Run on an idle CUDA lab machine; the script only collects A's CPU/naive results, does not start any cloud resources, and does not call B's or C's placeholder implementations.
 
 ```sh
-export NVCCFLAGS='-O2 -std=c++14 -arch=sm_75'  # 本次 T4 使用的选项
+export NVCCFLAGS='-O2 -std=c++14 -arch=sm_75'  # options used on the T4
 python3 scripts/run_part_a_matrix.py --run-id A-YOUR-UNIQUE-RUN-ID --context 'Describe the actual host'
 python3 scripts/plot_part_a.py A-YOUR-UNIQUE-RUN-ID
 ```
 
-正式尺寸取自配置文件（256/512/1024/2048）。脚本另测 16/32/64/128，用于 A 的 Q2 起效规模分析；这些是补充实验，不改变全组必测尺寸。可用 `--small-sizes ''` 关闭补充测量。CPU/naive 串行执行，各预热 1 次、测量 3 次，全部样本均保留。
+The formal sizes come from the configuration file (256/512/1024/2048). The script additionally measures 16/32/64/128 for A's Q2 analysis of where the GPU starts to pay off; these are supplementary experiments and do not change the team's required sizes. Use `--small-sizes ''` to turn them off. CPU and naive run sequentially, each with 1 warm-up and 3 measured calls, and all samples are kept.
 
-原始 CSV、完整命令/退出码、双精度参考检查、自测、环境、源码快照及文件/二进制哈希在 `results/raw/<run-id>/`。`manifest.json` 只有所有尺寸正确且源文件未变时才标记 `passed`。`results/summary/<run-id>.csv` 为均值、样本标准差与范围；`-comparison.csv` 中的加速比为两个均值之比。
+Raw CSVs, full commands/exit codes, double-precision reference checks, self-tests, environment, source snapshot, and file/binary hashes are written to `results/raw/<run-id>/`. `manifest.json` is marked `passed` only if every size is correct and the source files did not change. `results/summary/<run-id>.csv` holds means, sample standard deviations, and ranges; the speedups in `-comparison.csv` are ratios of two means.
 
-绘图脚本输出运行时间、补充小尺寸曲线和 GPU 开销图（PNG/SVG）。`provenance.json` 记录输入汇总、绘图脚本和图片的哈希。GPU 的 `end_to_end - compute` 是分配、拷贝、同步和释放等合计的剩余耗时，不能直接称为纯 PCIe 传输时间。
+The plotting script outputs the runtime curves, the supplementary small-size curves, and the GPU overhead plot (PNG/SVG). `provenance.json` records the hashes of the summary inputs, the plotting script, and the images. The GPU `end_to_end - compute` is the remaining time for allocation, copies, synchronization, cleanup, and so on combined, and must not be called pure PCIe transfer time.
 
-## Part 8.1 CPU 图片实验
+## Part 8.1 CPU image experiments
 
-在仓库根目录执行：
+Run from the repository root:
 
 ```sh
 python3 scripts/run_part81_cpu.py
 ```
 
-脚本使用并校验 `data/images/manifest.json` 记录的原图；没有原图清单时才生成测试图。随后转换图片、独立构建 CPU 程序、运行 selftest，并串行执行每张图的 M=512/1024/2048 × K=3/5/7 均值滤波。另在 M=512、K=3 展示边缘检测和锐化，共 33 个配置，每组预热 1 次、测量 3 次。
+The script uses and verifies the originals recorded in `data/images/manifest.json`, generating test images only if there is no manifest. It then converts the images, builds the CPU program separately, runs the selftest, and sequentially runs the mean filter for each image at M=512/1024/2048 × K=3/5/7. Edge detection and sharpening are also shown at M=512, K=3, for 33 configurations in total, each with 1 warm-up and 3 measured calls.
 
-每个配置用 C 双精度参考核对；九份展示输出另用 NumPy float64、补零的滑动窗口和翻转后的滤波器逐像素核对。CPU 计算的原始 float32 输出与 PNG 的显示映射分开保存。
+Every configuration is checked against the C double-precision reference; the nine demo outputs are additionally checked pixel by pixel with NumPy float64 using a zero-padded sliding window and the flipped filter. The raw float32 CPU outputs are saved separately from the PNG display mapping.
 
-- `results/raw/<run-id>/`：每个配置的 CSV/日志、完整命令和退出码、环境、输入哈希、源码快照与总清单。
-- `results/summary/<run-id>.csv`：逐图、逐配置的均值、样本标准差、最小/最大值，两种计时范围分别记录。
-- `results/figures/<run-id>/`：原图、三种滤波效果图和 `filter-comparison.png`。
-- `data/generated/<run-id>/`：九份展示用 CPU float32 参考输出，Git 忽略。
+- `results/raw/<run-id>/`: per-configuration CSVs/logs, full commands and exit codes, environment, input hashes, source snapshot, and the overall manifest.
+- `results/summary/<run-id>.csv`: per-image, per-configuration means, sample standard deviations, and min/max, recorded separately for both timing scopes.
+- `results/figures/<run-id>/`: the originals, the three filter result images, and `filter-comparison.png`.
+- `data/generated/<run-id>/`: the nine CPU float32 reference outputs used for the demos, ignored by Git.
 
-`--run-id NAME` 可指定实验编号；已有编号会被拒绝，避免覆盖记录。`--context '实际实验机与测量目的'` 用于明确本地验证或共用 AWS 主机上的 CPU 基线。Mac 测量不能与另一台主机的 CUDA 耗时直接计算加速比。
+`--run-id NAME` sets the experiment ID; an existing ID is rejected to avoid overwriting records. `--context 'actual machine and purpose of the measurement'` states whether the run is a local check or the CPU baseline on the shared AWS host. Speedups must not be computed between Mac measurements and CUDA times from another host.
 
-## 单独转换图片
+## Converting images on their own
 
 ```sh
-# data/images 下所有图片 → data/generated/<名字>_<M>.u32（灰度、居中裁成正方形、缩放到配置里的各尺寸）
+# All images in data/images → data/generated/<name>_<M>.u32 (grayscale, center-cropped to a square, resized to each configured size)
 python3 scripts/prepare_images.py to-raw
 
-# 跑一个展示滤波并转回 PNG；edge 输出有正有负，用 --mode abs 显示
+# Run one demo filter and convert back to PNG; edge output has both signs, so display it with --mode abs
 build/bench_cpu conv --image data/generated/geometry_512.u32 --k 3 --filter edge --save edge.f32
 python3 scripts/prepare_images.py to-png edge.f32 edge.png --mode abs
 ```
 
-环境记录命令见 [仓库运行示例](../README.md#运行)；先创建本次结果目录，再保存 `collect_env.sh` 的输出。
+See [the repository run example](../README.md#run) for the environment-record commands; create the result directory for the run first, then save the output of `collect_env.sh`.
 
-`to-png` 的 `--mode`：`clip`（默认，裁到 0–255）、`abs`（取绝对值再裁剪）、`normalize`（线性拉伸到 0–255）。只影响展示，数值校验永远用原始 float32 输出。
+`--mode` for `to-png`: `clip` (default, clipped to 0–255), `abs` (absolute value, then clipped), `normalize` (linearly stretched to 0–255). It only affects display; numerical validation always uses the raw float32 output.

@@ -1,42 +1,42 @@
-# 实验环境记录（A 负责）
+# Lab Environment Record (owner: A)
 
-状态：2026-10-06 PDT 已完成 AWS us-west-2 共用 T4 环境、A 的 CPU/naive 全尺寸正式测量、补充小尺寸测量、CPU 卷积基线，以及 GPU 容器内的编译、自测和三种矩阵尺寸运行。B/C 的实现与性能比较仍按各自 Part 完成。
+Status: as of 2026-10-06 PDT, the shared AWS us-west-2 T4 environment is set up; A's full-size formal CPU/naive measurements, the supplementary small-size measurements, and the CPU convolution baseline are complete, as are the build, self-test, and three matrix-size runs inside a GPU container. B's and C's implementations and performance comparisons are done under their own Parts.
 
-| 字段 | 实际值 |
+| Field | Actual value |
 |---|---|
-| 实验机代号 / 平台 | lab6-cuda；AWS us-west-2a；按需 g4dn.2xlarge |
-| OS / CPU / 内存 | Ubuntu 22.04.5 LTS，Linux 6.8.0-1066-aws；Xeon Platinum 8259CL，8 vCPU；实例规格 32 GiB，系统显示约 30 GiB |
-| GPU 型号 / 显存 | NVIDIA Tesla T4；nvidia-smi 显示 15360 MiB |
-| NVIDIA driver / CUDA Toolkit | 595.91.07 / 12.8（nvcc 12.8.93）；nvidia-smi 的 CUDA 13.2 为驱动支持版本，非本次编译工具版本 |
-| C 编译器 / Python / NumPy / Pillow | GCC 11.4.0 / Python 3.10.12 / NumPy 2.2.6 / Pillow 12.3.0 |
-| 实际构建命令与优化选项 | `export NVCCFLAGS='-O2 -std=c++14 -arch=sm_75'; make -j4 all`；C 为 Makefile 默认 `-O2 -std=c11 -Wall -Wextra -Wpedantic` |
-| 代码 commit / 未提交变更 | 基础 commit `a2f7c1c3bb871ff5bcdf38097ac740e9e8927f3b`；最初环境验证时 clean，正式测量时新增矩阵采集脚本、修改卷积记录脚本，工作区 dirty；算法源码未变，实际脚本与源码哈希/快照随批次保留 |
-| 环境验证命令、输出位置与日期 | 2026-10-07 05:59–06:02 UTC，即 10-06 22:59–23:02 PDT；[原始记录](../results/raw/A-20261007-055952-aws-smoke/) |
+| Machine name / platform | lab6-cuda; AWS us-west-2a; on-demand g4dn.2xlarge |
+| OS / CPU / memory | Ubuntu 22.04.5 LTS, Linux 6.8.0-1066-aws; Xeon Platinum 8259CL, 8 vCPU; 32 GiB instance spec, about 30 GiB reported by the system |
+| GPU model / memory | NVIDIA Tesla T4; nvidia-smi reports 15360 MiB |
+| NVIDIA driver / CUDA Toolkit | 595.91.07 / 12.8 (nvcc 12.8.93); the CUDA 13.2 shown by nvidia-smi is the version the driver supports, not the compiler used here |
+| C compiler / Python / NumPy / Pillow | GCC 11.4.0 / Python 3.10.12 / NumPy 2.2.6 / Pillow 12.3.0 |
+| Actual build command and options | `export NVCCFLAGS='-O2 -std=c++14 -arch=sm_75'; make -j4 all`; C uses the Makefile default `-O2 -std=c11 -Wall -Wextra -Wpedantic` |
+| Code commit / uncommitted changes | Base commit `a2f7c1c3bb871ff5bcdf38097ac740e9e8927f3b`; clean during the initial environment check. During the formal measurements a matrix collection script was added and the convolution recording script modified, so the worktree was dirty; algorithm sources were unchanged, and the actual scripts and source hashes/snapshots are kept with each batch |
+| Environment check commands, output location, and date | 2026-10-07 05:59–06:02 UTC, i.e. 10-06 22:59–23:02 PDT; [raw record](../results/raw/A-20261007-055952-aws-smoke/) |
 
-每次正式实验先新建结果目录，再将 `scripts/collect_env.sh` 的输出保存为该目录中的 `environment.txt`；命令示例见仓库 README。
-不要记录账户密码、访问密钥或私钥。
+For every formal experiment, first create a new result directory, then save the output of `scripts/collect_env.sh` as `environment.txt` in it; see the repository README for an example.
+Never record account passwords, access keys, or private keys.
 
-## 已完成的验证
+## Completed checks
 
-- `make -j4 all` 编译成功；`build/bench_cpu selftest` 与 `build/bench_cuda selftest --impl naive` 全部通过。
-- CPU、naive 各运行 N=256，预热 1 次、计时 1 次，数值校验通过。CSV 仅用于环境运行检查；没有据此生成正式性能结论、Q1/Q2 答案或加速比曲线。
-- Docker 29.8.2、NVIDIA Container Toolkit 1.20.1 已可用。官方 `nvidia/cuda:12.8.1-devel-ubuntu22.04` 容器中实际执行了 `nvidia-smi`、`nvcc --version`、`make all` 和 naive CUDA 自测，均通过。
-- 容器镜像 digest 为 `sha256:a99a1860ba8e2916e5c3e73b72ec4c4301653a84586e05bfc9a2aa2d58027e97`。使用 `--gpus all`、非 root 用户、只读源码挂载和临时构建目录；运行结束自动移除容器，镜像保留用于复现。完整命令见原始记录的 README。
-- ubuntu、lab6-b、lab6-c 的 SSH 与 GPU 访问已验证。B/C 各有独立 home、仓库和 `.venv`，没有 sudo/Docker 管理权限；GitHub 写入认证由各人使用自己的身份配置。
+- `make -j4 all` builds successfully; `build/bench_cpu selftest` and `build/bench_cuda selftest --impl naive` all pass.
+- CPU and naive were each run at N=256 with 1 warm-up and 1 measured call, and passed numerical validation. These CSVs were only used to check the environment; no formal performance conclusions, Q1/Q2 answers, or speedup curves were derived from them.
+- Docker 29.8.2 and NVIDIA Container Toolkit 1.20.1 are available. Inside the official `nvidia/cuda:12.8.1-devel-ubuntu22.04` container, `nvidia-smi`, `nvcc --version`, `make all`, and the naive CUDA self-test were actually run, and all passed.
+- The container image digest is `sha256:a99a1860ba8e2916e5c3e73b72ec4c4301653a84586e05bfc9a2aa2d58027e97`. The run uses `--gpus all`, a non-root user, a read-only source mount, and a temporary build directory; the container is removed automatically when it exits, and the image is kept for reproduction. The full commands are in the raw record's README.
+- SSH and GPU access were verified for the ubuntu, lab6-b, and lab6-c accounts. B and C each have their own home directory, repository, and `.venv`, without sudo or Docker admin rights; each person configures GitHub write access with their own identity.
 
-## A 的正式实验
+## A's formal experiments
 
-2026-10-06 23:21–23:28 PDT，测量与容器验证顺序执行：
+2026-10-06 23:21–23:28 PDT; measurements and container checks were run sequentially:
 
-- [矩阵批次](../results/raw/A-20261006-232110-matrix-aws/manifest.json)：CPU/naive 各覆盖正式 N=256/512/1024/2048 及补充 N=16/32/64/128。各预热 1 次、计时 3 次，48 次计时调用全部正确。CPU 为单线程三重循环，不使用多线程 BLAS。
-- [CPU 卷积批次](../results/raw/A-20261006-232110-part81-cpu-aws/manifest.json)：3 张原图，33 个配置，99 次计时调用全部正确，另有 9 份 NumPy 独立检查。此批次是 CPU/CUDA 卷积对比的同机基线。
-- [容器矩阵批次](../results/raw/A-20261006-232110-container-part3/manifest.json)：固定同一官方镜像 digest，在容器内重新编译、自检，N=256/512/1024 各预热 1 次、计时 3 次，全部通过。该批次用于 Part 3 执行证明，不与宿主机测量混合。
+- [Matrix batch](../results/raw/A-20261006-232110-matrix-aws/manifest.json): CPU and naive each cover formal N=256/512/1024/2048 and supplementary N=16/32/64/128, with 1 warm-up and 3 measured calls each; all 48 measured calls are correct. The CPU version is a single-threaded triple loop and does not use multithreaded BLAS.
+- [CPU convolution batch](../results/raw/A-20261006-232110-part81-cpu-aws/manifest.json): 3 source images, 33 configurations, all 99 measured calls correct, plus 9 independent NumPy checks. This batch is the same-host baseline for the CPU/CUDA convolution comparison.
+- [Container matrix batch](../results/raw/A-20261006-232110-container-part3/manifest.json): pinned to the same official image digest, rebuilt and self-tested inside the container, with 1 warm-up and 3 measured calls at each of N=256/512/1024, all passing. This batch proves Part 3 execution and is not mixed with host measurements.
 
-正式构建分别在 `build/<run-id>/`，避免复用旧二进制；完整编译命令、输入种子/哈希、源码快照、二进制哈希和退出码见各批次记录。矩阵和卷积数值算法保持基础 commit 的实现。部署阶段的一次计时 smoke CSV 不参与正式均值。
+Formal builds go into separate `build/<run-id>/` directories to avoid reusing old binaries; the full build commands, input seeds/hashes, source snapshots, binary hashes, and exit codes are in each batch's records. The matrix and convolution algorithms are the base commit's implementations. The single-call smoke CSV from deployment is not part of any formal mean.
 
-输入及 CPU 参考输出已复制到只读共享目录 `/opt/lab6-a-reference/20261006-232110/`。B/C 普通账号分别验证了 9 个输入和 9 个输出的 SHA-256，未修改他们的仓库。目录用法见 [结果入口](../results/README.md)。
+The inputs and CPU reference outputs were copied to the read-only shared directory `/opt/lab6-a-reference/20261006-232110/`. B's and C's regular accounts each verified the SHA-256 of the 9 inputs and 9 outputs, without modifying their repositories. See [the results index](../results/README.md) for how to use the directory.
 
-## 使用环境
+## Using the environment
 
 ```bash
 cd ~/CUDA-OPTIMAZATION
@@ -46,8 +46,8 @@ make -j4 all
 build/bench_cuda selftest --impl naive
 ```
 
-三人的登录环境统一选择 `/usr/local/cuda-12.8`。构建选项与 T4 匹配；换 GPU 时重新记录实际选项，不将 `sm_75` 作为所有平台的构建要求。正式比较继续遵守 `docs/CONTRACTS.md` 的数据和计时约定。
+All three members' login environments use `/usr/local/cuda-12.8`. The build options match the T4; on a different GPU, record the options actually used, and do not treat `sm_75` as a build requirement for every platform. Formal comparisons continue to follow the data and timing conventions in `docs/CONTRACTS.md`.
 
-连接地址、私钥及管理员开关机说明保存在仓库外，由管理员单独交接。实例停止后再次启动可能更换公网 IP。
+Connection addresses, private keys, and the administrator's start/stop instructions are kept outside the repository and handed over separately by the administrator. The public IP may change after the instance is stopped and restarted.
 
-PDF Part 3 的 GPU 示例包括 T4/V100，并要求创建 GPU 容器；本次采用 AWS T4，已保存真实的容器编译运行证据。此前提到的课堂口头显卡要求仍以老师确认内容为准；这些技术验证不代表课程已经提交或验收。
+The GPU examples in handout Part 3 include T4/V100, and the handout asks for a GPU container; this lab uses an AWS T4, and real container build and run evidence is saved. Any GPU requirement mentioned verbally in class is subject to the instructor's confirmation; these technical checks do not mean the course submission has been made or accepted.

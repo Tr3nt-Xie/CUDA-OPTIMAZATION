@@ -1,10 +1,10 @@
-# AWS T4 环境验证记录
+# AWS T4 Environment Check Record
 
-日期：2026-10-07 05:59–06:02 UTC（10-06 22:59–23:02 PDT）。
-平台：AWS us-west-2a，g4dn.2xlarge，Ubuntu 22.04.5，Tesla T4。
-源码：`a2f7c1c3bb871ff5bcdf38097ac740e9e8927f3b`，远端初始工作区 clean。
+Date: 2026-10-07 05:59–06:02 UTC (10-06 22:59–23:02 PDT).
+Platform: AWS us-west-2a, g4dn.2xlarge, Ubuntu 22.04.5, Tesla T4.
+Source: `a2f7c1c3bb871ff5bcdf38097ac740e9e8927f3b`; the remote worktree was initially clean.
 
-宿主机命令：
+Host commands:
 
 ```bash
 cd ~/CUDA-OPTIMAZATION
@@ -19,9 +19,9 @@ build/bench_cpu matrix --impl cpu --n 256 --runs 1 --warmup 1 --member A --csv c
 build/bench_cuda matrix --impl naive --n 256 --runs 1 --warmup 1 --member A --csv naive-smoke.csv
 ```
 
-实际日志位于本目录。两个 CSV 各 2 行（compute/end_to_end），全部 `correct=true`。只用于证明环境可运行，不能替代全部尺寸、三次重复的正式实验。
+The actual logs are in this directory. Each of the two CSVs has 2 rows (compute/end_to_end), all with `correct=true`. They only prove that the environment runs; they do not replace the formal experiments with all sizes and three repetitions.
 
-GPU 容器在管理员账号运行，使用如下命令；不需要给队友 Docker 管理权限：
+The GPU container was run under the administrator account with the command below; teammates do not need Docker admin rights:
 
 ```bash
 sudo docker pull nvidia/cuda:12.8.1-devel-ubuntu22.04
@@ -40,4 +40,4 @@ sudo docker run --rm --gpus all --network none --cap-drop ALL --security-opt no-
   '
 ```
 
-实际拉取的镜像 digest 保存在 `container-digest.txt`；完整成功输出见 `container-gpu-test.log`。容器结束后自动删除，原镜像保留。B/C 占位文件仅参与编译，没有将其记录为功能或性能验证通过。
+The digest of the image actually pulled is saved in `container-digest.txt`; the full successful output is in `container-gpu-test.log`. The container is deleted automatically when it exits, and the image is kept. B's and C's placeholder files were only compiled; they were not recorded as passing any functional or performance check.

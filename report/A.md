@@ -21,7 +21,7 @@ Each configuration has one warm-up and three measured calls. Table 1 reports ari
 
 **Figure 1.** Runtime increases with matrix size; the vertical axis is logarithmic. The arithmetic work grows as N³, but measured CPU time does not follow an exact eightfold increase when N doubles. The baseline reads B with a stride in its inner loop; memory-system effects are a plausible contributor, but were not isolated with a profiler. GPU compute time grows from 0.065 ms at N=256 to 31.391 ms at N=2048. The end-to-end speedup increases from 37.80× to 1388.36× against this specific single-thread baseline.
 
-All 24 formal measured calls and 24 supplementary small-size calls passed `abs(error) <= 1e-3 + 1e-4 * abs(reference)`, with nonfinite outputs rejected. The largest formal absolute error was 0.00160635; correctness uses the combined absolute and relative tolerance. CPU and naive CUDA self-tests also passed, including non-block-aligned matrices. Supplementary N=16/32/64/128 measurements support the Q2 discussion in the video.
+All 24 formal measured calls and 24 supplementary small-size calls passed `abs(error) <= 1e-3 + 1e-4 * abs(reference)`, with nonfinite outputs rejected. The largest formal absolute error was 0.00160635; correctness uses the combined absolute and relative tolerance. CPU and naive CUDA self-tests also passed, including non-block-aligned matrices. Supplementary N=16/32/64/128 measurements support the Q2 discussion below.
 
 ### Analysis questions Q1 and Q2
 

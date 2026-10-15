@@ -1,22 +1,22 @@
-# 卷积测试图片（A 负责）
+# Convolution Test Images (owner: A)
 
-- `images/`：原始测试图片，提交到 Git，在本文件下方注明来源。
-- `generated/`：由 `scripts/prepare_images.py` 转换出的各尺寸 `uint32` 原始二进制（row-major），Git 忽略，可随时重新生成。
+- `images/`: the original test images, committed to Git, with their sources documented below.
+- `generated/`: raw `uint32` binaries (row-major) at each size, converted by `scripts/prepare_images.py`; ignored by Git and can be regenerated at any time.
 
-矩阵输入不存文件，由测试程序按固定 seed 生成。卷积不指定 `--image` 时使用随机图片；本次 Part 8.1 的计时和展示都显式使用下列图片。转换命令见 `scripts/README.md`。
+Matrix inputs are not stored as files; the benchmark program generates them from a fixed seed. Convolution uses a random image when `--image` is not given; the Part 8.1 timing and demos explicitly use the images below. See `scripts/README.md` for the conversion commands.
 
-## 图片来源
+## Image sources
 
-三张图片均由本仓库 `scripts/generate_test_images.py` 原创生成，不是实拍照片，不使用外部图片。原图为 2048×2048、8-bit 灰度 PNG，像素范围 0–255；送入 C 程序时转换为 little-endian `uint32`。
+All three images were generated from scratch by this repository's `scripts/generate_test_images.py`; they are not photographs and no external images are used. The originals are 2048×2048 8-bit grayscale PNGs with pixel values 0–255, converted to little-endian `uint32` before being passed to the C program.
 
-| 文件 | 内容 | 验证用途 |
+| File | Content | What it checks |
 |---|---|---|
-| `images/geometry.png` | 方框、圆环、三角形、不同宽度的斜线与渐变 | 观察轮廓、方向和零填充边界 |
-| `images/frequency.png` | 渐变频率条纹、同心纹理与棋盘格 | 观察均值滤波对细密纹理的平滑及锐化后的对比变化 |
-| `images/soft_scene.png` | 程序绘制并柔化的房屋、山体、树木和栅栏 | 观察柔化轮廓的边缘响应和锐化效果 |
+| `images/geometry.png` | Boxes, rings, triangles, diagonal lines of different widths, and gradients | Contours, orientation, and the zero-padding boundary |
+| `images/frequency.png` | Stripes of varying frequency, concentric textures, and a checkerboard | How the mean filter smooths fine textures, and the contrast change after sharpening |
+| `images/soft_scene.png` | A procedurally drawn and softened house, hills, trees, and fence | Edge response on soft contours and the sharpening effect |
 
-原图 SHA-256 在 `images/manifest.json` 中。固定生成参数为尺寸 2048、seed 542；本次使用 NumPy 2.3.5、Pillow 12.3.0。`generate_test_images.py` 不覆盖内容不同的既有原图。
+The SHA-256 of each original is in `images/manifest.json`. The fixed generation parameters are size 2048 and seed 542; this run used NumPy 2.3.5 and Pillow 12.3.0. `generate_test_images.py` never overwrites an existing original whose content differs.
 
-队友优先使用仓库中的这三张 PNG。`run_part81_cpu.py` 会核对原图哈希，再通过 `prepare_images.py` 转成 M=512/1024/2048 的 `.u32`。每个实验记录还保存对应 `.u32` 的 SHA-256，跨机器比较前必须一致；相同文件名或尺寸不足以证明输入相同。
+Teammates should use these three PNGs from the repository. `run_part81_cpu.py` verifies the original hashes and then converts them to `.u32` at M=512/1024/2048 via `prepare_images.py`. Every experiment record also stores the SHA-256 of the corresponding `.u32`, which must match before comparing across machines; the same file name or size does not prove the inputs are identical.
 
-512×512、K=3 的九份 CPU float32 输出保存在 `data/generated/<run-id>/`，可用同一脚本重新生成。它们保留负值和超出 255 的值，用于数值比较；PNG 效果图仅用于展示。
+The nine CPU float32 outputs at 512×512, K=3 are saved in `data/generated/<run-id>/` and can be regenerated with the same script. They keep negative values and values above 255 for numerical comparison; the PNG result images are for display only.

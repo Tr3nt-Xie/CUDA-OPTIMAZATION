@@ -1,57 +1,55 @@
-# Lab6 分工与交付检查表
+# Lab6 Division of Work and Deliverables Checklist
 
-依据：`lab6-f26.pdf`，共 8 页。A 的 Parts 1–3、8.1 实验和报告材料已完成：AWS 同机 CPU/naive 正式与补充矩阵、CPU 卷积、GPU 容器运行均通过。Q1/Q2 已写入 report/A.md 和仓库外的 A 视频脚本；实际录像、B/C 材料及全组最终合并尚待完成。A/B/C 姓名待填。
+Based on `lab6-f26.pdf` (8 pages). A's Parts 1–3 and 8.1 experiments and report materials are complete: same-host AWS CPU/naive formal and supplementary matrix runs, CPU convolution, and the GPU container run all passed. Q1/Q2 are answered in report/A.md. B's Parts 4, 6.2, and 8.2 materials are in the repository; C's code has been merged, and C's report materials and runtime figure are in the repository; the final team merge is pending. Names for A/B/C are still to be filled in.
 
-表中的文件路径是当前骨架的位置。各成员按实验文档完成本人 Part，内部实现与文件组织由本人决定；接入时保持接口和结果口径一致。
+File paths in the table are the locations in the current skeleton. Each member completes their Parts according to the handout and decides their own internal implementation and file organization, keeping the interface and result conventions consistent when integrating.
 
-| Part / PDF 页码 | 负责人 | 工作与源码 | 验收 / 材料 |
+| Part / handout pages | Owner | Work and source | Acceptance / materials |
 |---|---|---|---|
-| 1 · p1–2 | A | src/matrix/cpu.c，CPU 三重循环 | 正确性、三种必测尺寸；report 中的时间记录与曲线 |
-| 2 · p2–3 | A | src/matrix/naive.cu，朴素 CUDA 与 host 流程 | 可运行程序、CPU 对照与原始计时 |
-| 3 · p3 | A | docs/ENVIRONMENT.md，共用 GPU 环境 | 环境版本与实际成功运行证据 |
-| 4 · p3–4 | B | src/matrix/tiled.cu，共享内存分块 | 对照 CPU/naive，正确性、计时、边界处理 |
-| 5 · p4 | C 汇总，A/B 供数据 | scripts，results/summary、figures | CPU/naive/tiled 对比、加速比与传输开销 |
-| 6.1 · p4–5 | C | src/matrix/cublas.cu | 同尺寸 cuBLAS 对照、正确性与计时 |
-| 6.2 · p5 | B | src/matrix/optimized.cu | 进一步优化尝试、方法来源、前后数据与视频解释 |
-| 7 · p5–7 | C，依赖 B | src/bindings/exports.cu，python | Part 4 共享库、ctypes 调用和正确输出 |
-| 8.1 · p7 | A | src/convolution/cpu.c，数据/滤波器生成 | AWS 同机已完成：3 张图、3×3 尺寸组合、边缘/锐化展示、99 次计时；report/A.md，输入/输出已放只读共享目录 |
-| 8.2 · p8 | B，依赖 A 的输入 | src/convolution/cuda.cu | 同输入 CPU/CUDA 数值与性能对照 |
-| 8.3 · p8 | C，依赖 B | 卷积共享库与 Python 入口 | CPU C / 独立 CUDA / Python CUDA 三方比较 |
-| Deliverables · p8 | 全员 | GitHub 源码及可复现说明 | CPU、CUDA、优化、cuBLAS、共享库、Python 全部可定位；视频含曲线、规模变化、开销、优化取舍、共享库说明 |
+| 1 · p1–2 | A | src/matrix/cpu.c, CPU triple loop | Correctness, the three required sizes; timing records and curves in the report |
+| 2 · p2–3 | A | src/matrix/naive.cu, naive CUDA and host flow | Runnable program, CPU comparison, and raw timings |
+| 3 · p3 | A | docs/ENVIRONMENT.md, shared GPU environment | Environment versions and evidence of actual successful runs |
+| 4 · p3–4 | B | src/matrix/tiled.cu, shared-memory tiling | Comparison with CPU/naive, correctness, timing, boundary handling |
+| 5 · p4 | C summarizes, A/B provide data | scripts, results/summary, figures | CPU/naive/tiled comparison, speedups, and transfer overhead |
+| 6.1 · p4–5 | C | src/matrix/cublas.cu | cuBLAS comparison at the same sizes, correctness and timing |
+| 6.2 · p5 | B | src/matrix/optimized.cu | Further optimization attempts, sources of the methods, before/after data and explanation |
+| 7 · p5–7 | C, depends on B | src/bindings/exports.cu, python | Part 4 shared library, ctypes calls, and correct output |
+| 8.1 · p7 | A | src/convolution/cpu.c, data/filter generation | Done on the same AWS host: 3 images, 3×3 size combinations, edge/sharpen demos, 99 timed calls; report/A.md; inputs/outputs placed in the read-only shared directory |
+| 8.2 · p8 | B, depends on A's inputs | src/convolution/cuda.cu | CPU/CUDA numerical and performance comparison on the same inputs |
+| 8.3 · p8 | C, depends on B | Convolution in the shared library and Python entry point | Three-way comparison: CPU C / standalone CUDA / Python CUDA |
+| Deliverables · p8 | Everyone | Source on GitHub with reproducible instructions | CPU, CUDA, optimized, cuBLAS, shared library, and Python can all be located |
 
-## Part 6 五个问题
+## The five Part 6 questions
 
-| 题号 | 内容 | 主答 / 数据来源 |
+| No. | Question | Main answer / data source |
 |---|---|---|
-| Q1 | 性能如何随矩阵规模变化 | A；CPU/naive 曲线已完成，最终由 C 合入全组图表 |
-| Q2 | 从什么规模起 GPU 明显更快 | A；分清 compute / end_to_end |
-| Q3 | tiled 相比 naive 的效果 | B |
-| Q4 | 手工优化与 cuBLAS 比较 | C；B 提供优化说明 |
-| Q5 | cuBLAS 为什么更快 | C；结合实测与资料解释 |
+| Q1 | How does performance change as matrix size increases? | A; CPU/naive curves done, merged into the team figures by C |
+| Q2 | At what point does the GPU significantly outperform the CPU? | A; distinguish compute and end_to_end |
+| Q3 | How much speedup does tiling give over naive CUDA? | B |
+| Q4 | How close is the hand-optimized kernel to cuBLAS? | C; B provides the optimization description |
+| Q5 | Why might cuBLAS still be faster? | C; explained with measurements and references |
 
-题目以 PDF p.5 为准，上表记录组内分工；回答载体按实验要求安排。
+The questions are as written on handout p.5; the table records the team's division of work, and where the answers appear follows the lab requirements.
 
-## 每人的交接包
+## Each member's handoff package
 
-- 自己的源码、依赖及真实编译/运行命令。
-- 正确性证据、原始 CSV/日志、环境与输入标识。
-- 本人所负责 Part 的报告材料、图像说明和视频片段/口播。
-- 当前限制、失败项或未完成项；不得以占位数据充当结果。
+- Their own source code, dependencies, and actual build/run commands.
+- Correctness evidence, raw CSVs/logs, environment, and input identifiers.
+- Report materials and image descriptions for the Parts they own.
+- Current limitations, failures, or unfinished items; placeholder data must never be presented as results.
 
-各成员所需的报告材料保存在 `report/`，最后由 A 合并成唯一 `report/report.md`。成员材料的文件名和章节组织可按实际内容安排。视频脚本单独保存在代码仓库外的 lab6 实验目录，不放进 report 或代码仓库。当前不生成空的最终报告，也不填写虚构贡献、结果或视频链接。
+Report materials from each member are kept in `report/` and finally merged by A into a single `report/report.md`. File names and section organization of the member materials follow their actual content. No empty final report is created now, and no fictional contributions or results are filled in.
 
-## 最后收尾
+## Final wrap-up
 
-- [x] A 的共用 AWS T4 环境：三人 SSH 账号、宿主机 CPU/naive 自测、GPU 容器编译运行及 N=256 小规模检查；证据见 `docs/ENVIRONMENT.md`。
-- [x] A 的正式矩阵数据：四种正式尺寸和四种补充小尺寸，48 次计时调用全部通过；Part 1/2 曲线和 Q1/Q2 答案已准备。
-- [x] A 的 8.1 对比数据：三张原图及来源（`data/README.md`）、AWS 同机 33 个配置、99 次计时调用、9 份独立检查、报告效果图；固定输入/CPU 输出已放只读共享目录并验证 B/C 可读。
-- [x] A 的 Part 3 容器执行：容器内编译、自检及 N=256/512/1024 的九次计时调用全部通过。
-- [x] A 的英文报告与录制脚本：report/A.md；仓库外 lab6/A-video-script.md，镜头 3/4 分别回答 Q1/Q2。
-- [ ] A：按脚本录制视频片段，交给 C 合并。
+- [x] A's shared AWS T4 environment: SSH accounts for all three members, host CPU/naive self-tests, GPU container build/run, and an N=256 small-scale check; evidence in `docs/ENVIRONMENT.md`.
+- [x] A's formal matrix data: four formal sizes and four supplementary small sizes, all 48 timed calls passed; Part 1/2 curves and Q1/Q2 answers prepared.
+- [x] A's 8.1 comparison data: three source images with sources (`data/README.md`), 33 configurations on the same AWS host, 99 timed calls, 9 independent checks, report images; fixed inputs/CPU outputs placed in the read-only shared directory and verified readable by B/C.
+- [x] A's Part 3 container execution: in-container build, self-test, and nine timed calls at N=256/512/1024, all passing.
+- [x] A's English report: report/A.md, including Q1/Q2.
+- [ ] A: merge the report, making sure the Part 1 curves, Part 8.1 images, and related experiment materials are complete.
+- [ ] B: from a clean checkout, check the CPU/GPU builds, all source files, the README, and the reproduction steps.
+- [x] C's report materials and runtime figure: report/C.md (Parts 5, 6.1, 7, 8.3; Q4/Q5) and results/figures/C-20261013-full-02/; C's raw run directories stay on the shared server.
+- [ ] Everyone: check every Part, the five questions, actual contributions, and final links; confirm the submission entry and attachments on the course submission page.
 
-- [ ] A：合并报告，确保 Part 1 曲线、Part 8.1 图像及相关实验材料齐全。
-- [ ] B：干净检出后核对 CPU/GPU 构建、所有源文件、README 和复现流程。
-- [ ] C：生成对比图，合并视频材料，核对共享库/Python 演示。
-- [ ] 全员：核对全部 Part、五个问题、真实贡献和最终链接；按课程提交页面核对提交入口及附件。
-
-本地骨架创建不等于 GitHub 已 push、课程已提交或实验已完成。
+Creating the local skeleton does not mean anything has been pushed to GitHub, submitted for the course, or that the lab is complete.
