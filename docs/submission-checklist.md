@@ -1,6 +1,6 @@
 # Lab6 Division of Work and Deliverables Checklist
 
-Based on `lab6-f26.pdf` (8 pages). A's Parts 1–3 and 8.1 experiments and report materials are complete: same-host AWS CPU/naive formal and supplementary matrix runs, CPU convolution, and the GPU container run all passed. Q1/Q2 are answered in report/A.md. B's Parts 4, 6.2, and 8.2 materials are in the repository; C's code has been merged, and C's report materials and runtime figure are in the repository; the final team merge is pending. Names for A/B/C are still to be filled in.
+Based on `lab6-f26.pdf` (8 pages). A's Parts 1–3 and 8.1 experiments and report materials are complete: same-host AWS CPU/naive formal and supplementary matrix runs, CPU convolution, and the GPU container run all passed. Q1/Q2 are answered in report/A.md. B's Parts 4, 6.2, and 8.2 materials are in the repository; C's code has been merged, and C's report materials and figures are in the repository; the final team merge is pending. Names for A/B/C are still to be filled in.
 
 File paths in the table are the locations in the current skeleton. Each member completes their Parts according to the handout and decides their own internal implementation and file organization, keeping the interface and result conventions consistent when integrating.
 
@@ -49,7 +49,7 @@ Report materials from each member are kept in `report/` and finally merged by A 
 - [x] A's English report: report/A.md, including Q1/Q2.
 - [ ] A: merge the report, making sure the Part 1 curves, Part 8.1 images, and related experiment materials are complete.
 - [ ] B: from a clean checkout, check the CPU/GPU builds, all source files, the README, and the reproduction steps.
-- [x] C's report materials and runtime figure: report/C.md (Parts 5, 6.1, 7, 8.3; Q4/Q5) and results/figures/C-20261013-full-02/; C's raw run directories stay on the shared server.
+- [x] C's report materials and figures: report/C.md (Parts 5, 6.1, 7, 8.3; Q4/Q5) and results/figures/C-20261013-full-02/; C's raw run directories stay on the shared server.
 - [ ] Everyone: check every Part, the five questions, actual contributions, and final links; confirm the submission entry and attachments on the course submission page.
 
 Creating the local skeleton does not mean anything has been pushed to GitHub, submitted for the course, or that the lab is complete.

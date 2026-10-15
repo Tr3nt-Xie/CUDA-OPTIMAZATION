@@ -1,8 +1,6 @@
 # Member C: Parts 5, 6.1, 7, and 8.3
 
-Compilation, native and Python correctness checks, all formal measurements, and the image-processing application were completed on AWS T4 with CUDA 12.8 on October 13, 2026. All 105 configurations and 315 measured calls passed. Full timing values, errors, and provenance are recorded in C's measurement tables and run directory on the shared server (see the last section). All 18 CPU-only unit tests also passed locally and on the server.
-
-> **Source version note (added when merging):** this batch used member B's kernels at commit `961a884`, before B's final tile-size selection (`4b472d5`) and convolution kernel choice (`93e9f2d`). The optimized kernel's tile configuration therefore differs from the current code at N=256 and N=1024 (N=512 and N=2048 are unchanged), so the optimized values and Q4 ratios at those two sizes differ from [report/B.md](B.md). The CUDA convolution timings here used the shared-memory kernel for K=3/5/7, where the current code uses the direct kernel.
+Compilation, native and Python correctness checks, all formal measurements, and the image-processing application were completed on AWS T4 with CUDA 12.8 on October 13, 2026. All 105 configurations and 315 measured calls passed in this recorded run. Full timing values, errors, and provenance are recorded in C's measurement tables and run directory on the shared server (see the last section). All 18 CPU-only unit tests also passed locally and on the server. C's source contribution was merged into GitHub through [pull request #1](https://github.com/Tr3nt-Xie/CUDA-OPTIMAZATION/pull/1). Measurement records remain in C's local deliverable package.
 
 ![Matrix runtime under both timing scopes](../results/figures/C-20261013-full-02/matrix-runtime.png)
 
@@ -19,6 +17,21 @@ References: [NVIDIA cuBLAS 12.8 GEMM documentation](https://docs.nvidia.com/cuda
 CPU, naive CUDA, tiled CUDA, further-optimized CUDA, and cuBLAS were measured on the same machine at N=256/512/1024/2048. Python calling the tiled implementation was included to examine the language interface. Each configuration received one warm-up call and three measured calls. Results report the arithmetic mean and sample standard deviation, using all three measurements.
 
 Separate plots show `compute` and `end_to_end` runtime. Speedup is defined as `CPU mean / implementation mean` for the same input, host, and timing scope. The summarizer checks that all three runs are present, correct, and finite. Missing measurements are not replaced with zero, and failed configurations are excluded. The earlier local preview based on member A's data only validated the aggregation workflow; it is separate from C's formal measurements.
+
+### cuBLAS Mean Runtime
+
+The following table includes all four required matrix sizes. Values are arithmetic means of three measured calls after one warm-up call on an NVIDIA T4 with CUDA 12.8, rounded to six decimal places. All measured calls passed the correctness check.
+
+| Matrix size N | Mean compute time (ms) | Mean end-to-end time (ms) |
+|---|---:|---:|
+| 256 | 0.027349 | 0.734985 |
+| 512 | 0.056725 | 1.651634 |
+| 1024 | 0.335808 | 4.377843 |
+| 2048 | 2.272512 | 15.131515 |
+
+Compute time measures the device computation using CUDA events. End-to-end time measures the complete call, including device-memory allocation, host/device data transfers, synchronization, cleanup, and cuBLAS handle creation and destruction. Reporting both scopes shows how computation scales and how other call costs affect application performance.
+
+Source: run `C-20261013-full-02` (`matrix-cublas.csv` and `summary.csv` in C's run directory, not included in this repository).
 
 ### Q4: How Close Is the Hand-Optimized Implementation to cuBLAS?
 
@@ -50,8 +63,12 @@ The application applies mean, edge-detection, and sharpening filters to a graysc
 
 At N=2048, Python tiled takes 17.846 ms for compute and 30.486 ms end to end, compared with 18.499 ms and 30.872 ms for the standalone tiled program. These batches were collected sequentially, so device state and sample variation can affect their means. Subtracting the two batch means does not isolate Python overhead, and these results do not establish that Python is intrinsically faster than C.
 
+![Actual Python CUDA filter outputs](../results/figures/C-20261013-full-02/python-filter-demo.png)
+
 ## Reproducibility
 
-Raw measurements, the source snapshot, environment information, and successful execution logs were written to `results/raw/C-20261013-full-02/`, and aggregated results and independent completeness checks to `results/summary/C-20261013-full-02/`, inside the server execution directory `/home/lab6-c/lab6-c-validation-20261013`. These run directories are not included in this repository; only the matrix runtime figure is. The environment log reports `commit: unknown` because testing used a source-snapshot directory. Source provenance is established by the per-file hashes in the manifest, rather than the environment script's `worktree: clean` output.
+Raw measurements, the source snapshot, environment information, and successful execution logs were written to `results/raw/C-20261013-full-02/`, and aggregated results and independent completeness checks to `results/summary/C-20261013-full-02/`, inside the server execution directory `/home/lab6-c/lab6-c-validation-20261013`. These run directories are not included in this repository; only the figures are. The environment log reports `commit: unknown` because testing used a source-snapshot directory. Source provenance is established by the per-file hashes in the manifest, rather than the environment script's `worktree: clean` output.
 
-The implementation, measured data, figures, and member C's report materials are complete. C's code was merged into main through pull request #1 on October 14, 2026.
+The comparisons in this report describe the preserved October 13 source snapshot, including member B's implementations at commit `961a8847d56831ba9d66a6b2fbb555ddd2e27d56`. Later changes to member B's kernels in GitHub main were not included in this GPU benchmark run; these measurements should not be presented as a benchmark of those later revisions.
+
+The implementation, measured data, figures, member C's report materials, and source upload are complete.

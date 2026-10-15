@@ -13,7 +13,7 @@ Status: as of 2026-10-06 PDT, the shared AWS us-west-2 T4 environment is set up;
 | Code commit / uncommitted changes | Base commit `a2f7c1c3bb871ff5bcdf38097ac740e9e8927f3b`; clean during the initial environment check. During the formal measurements a matrix collection script was added and the convolution recording script modified, so the worktree was dirty; algorithm sources were unchanged, and the actual scripts and source hashes/snapshots are kept with each batch |
 | Environment check commands, output location, and date | 2026-10-07 05:59–06:02 UTC, i.e. 10-06 22:59–23:02 PDT; [raw record](../results/raw/A-20261007-055952-aws-smoke/) |
 
-For every formal experiment, first create a new result directory, then save the output of `scripts/collect_env.sh` as `environment.txt` in it; see the repository README for an example.
+For every formal experiment, first create a new result directory, then save the output of `scripts/collect_env.sh` as `environment.txt` in it, for example `scripts/collect_env.sh > results/raw/<run-id>/environment.txt`.
 Never record account passwords, access keys, or private keys.
 
 ## Completed checks

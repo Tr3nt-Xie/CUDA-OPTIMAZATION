@@ -59,6 +59,6 @@ build/bench_cpu conv --image data/generated/geometry_512.u32 --k 3 --filter edge
 python3 scripts/prepare_images.py to-png edge.f32 edge.png --mode abs
 ```
 
-See [the repository run example](../README.md#run) for the environment-record commands; create the result directory for the run first, then save the output of `collect_env.sh`.
+To record the environment of a run, create its result directory first, then run `scripts/collect_env.sh > results/raw/<run-id>/environment.txt`.
 
 `--mode` for `to-png`: `clip` (default, clipped to 0–255), `abs` (absolute value, then clipped), `normalize` (linearly stretched to 0–255). It only affects display; numerical validation always uses the raw float32 output.

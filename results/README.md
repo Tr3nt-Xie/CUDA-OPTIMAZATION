@@ -67,7 +67,7 @@ Each `environment.txt` reports the worktree as dirty; the only uncommitted items
 
 C's full batch `C-20261013-full-02` was run on 2026-10-13 on the same T4, covering six matrix implementations (CPU, naive, tiled, optimized, cuBLAS, Python + tiled) at N=256/512/1024/2048 and the CPU / standalone CUDA / Python CUDA convolution comparison; according to [C's report materials](../report/C.md), all 105 configurations and 315 measured calls passed. It used B's kernels at commit `961a884`, before B's final tile and convolution-kernel selection.
 
-Only [matrix-runtime.png](figures/C-20261013-full-02/matrix-runtime.png) is in this repository: a PNG conversion of the figure C provided, not the original file. The batch's raw CSVs and summary tables remain in C's run directory on the shared server.
+Only the figures are in this repository: [matrix-runtime.png](figures/C-20261013-full-02/matrix-runtime.png) and [python-filter-demo.png](figures/C-20261013-full-02/python-filter-demo.png), PNG conversions of the figures C provided rather than the original files. The cuBLAS means for all four sizes are listed in C's report. The batch's raw CSVs and summary tables remain in C's run directory on the shared server.
 
 ## A's AWS environment check
 
